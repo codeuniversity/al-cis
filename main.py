@@ -24,7 +24,7 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
   def BigBang(self, request, context):
     for i in range(config.NUMBER_OF_INITIAL_CELLS):
       pos = np.random.rand(3) * config.WORLD_DIMENSIONS
-      dna = ""
+      dna = bytes()
       c = proto.Cell(id=i, energy_level=20, pos=array_2_vec(pos), vel=list_2_vec([0,0,0]), dna=dna, connections=[])
       yield c
 
