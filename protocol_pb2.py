@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='proto',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x0eprotocol.proto\x12\x05proto\")\n\x06Vector\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\x12\t\n\x01z\x18\x03 \x01(\x02\"D\n\nConnection\x12\x14\n\x0c\x63onnected_to\x18\x01 \x01(\x04\x12 \n\tdirection\x18\x02 \x01(\x0b\x32\r.proto.Vector\"\x7f\n\x04\x43\x65ll\x12\n\n\x02id\x18\x01 \x01(\x04\x12\x1a\n\x03pos\x18\x02 \x01(\x0b\x32\r.proto.Vector\x12\x1a\n\x03vel\x18\x03 \x01(\x0b\x32\r.proto.Vector\x12\x0b\n\x03\x64na\x18\x04 \x01(\x0c\x12&\n\x0b\x63onnections\x18\x05 \x03(\x0b\x32\x11.proto.Connection\"u\n\x10\x43\x65llComputeBatch\x12\x11\n\ttime_step\x18\x01 \x01(\x04\x12%\n\x10\x63\x65lls_to_compute\x18\x02 \x03(\x0b\x32\x0b.proto.Cell\x12\'\n\x12\x63\x65lls_in_proximity\x18\x03 \x03(\x0b\x32\x0b.proto.Cell\"\x10\n\x0e\x42igBangRequest2\x96\x01\n\x16\x43\x65llInteractionService\x12K\n\x17\x43omputeCellInteractions\x12\x17.proto.CellComputeBatch\x1a\x17.proto.CellComputeBatch\x12/\n\x07\x42igBang\x12\x15.proto.BigBangRequest\x1a\x0b.proto.Cell0\x01\x62\x06proto3')
+  serialized_pb=_b('\n\x0eprotocol.proto\x12\x05proto\")\n\x06Vector\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\x12\t\n\x01z\x18\x03 \x01(\x02\"D\n\nConnection\x12\x14\n\x0c\x63onnected_to\x18\x01 \x01(\x04\x12 \n\tdirection\x18\x02 \x01(\x0b\x32\r.proto.Vector\"\x95\x01\n\x04\x43\x65ll\x12\n\n\x02id\x18\x01 \x01(\x04\x12\x14\n\x0c\x65nergy_level\x18\x02 \x01(\x04\x12\x1a\n\x03pos\x18\x03 \x01(\x0b\x32\r.proto.Vector\x12\x1a\n\x03vel\x18\x04 \x01(\x0b\x32\r.proto.Vector\x12\x0b\n\x03\x64na\x18\x05 \x01(\x0c\x12&\n\x0b\x63onnections\x18\x06 \x03(\x0b\x32\x11.proto.Connection\"u\n\x10\x43\x65llComputeBatch\x12\x11\n\ttime_step\x18\x01 \x01(\x04\x12%\n\x10\x63\x65lls_to_compute\x18\x02 \x03(\x0b\x32\x0b.proto.Cell\x12\'\n\x12\x63\x65lls_in_proximity\x18\x03 \x03(\x0b\x32\x0b.proto.Cell\"\x10\n\x0e\x42igBangRequest2\x96\x01\n\x16\x43\x65llInteractionService\x12K\n\x17\x43omputeCellInteractions\x12\x17.proto.CellComputeBatch\x1a\x17.proto.CellComputeBatch\x12/\n\x07\x42igBang\x12\x15.proto.BigBangRequest\x1a\x0b.proto.Cell0\x01\x62\x06proto3')
 )
 
 
@@ -123,29 +123,36 @@ _CELL = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='pos', full_name='proto.Cell.pos', index=1,
-      number=2, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
+      name='energy_level', full_name='proto.Cell.energy_level', index=1,
+      number=2, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='vel', full_name='proto.Cell.vel', index=2,
+      name='pos', full_name='proto.Cell.pos', index=2,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='dna', full_name='proto.Cell.dna', index=3,
-      number=4, type=12, cpp_type=9, label=1,
+      name='vel', full_name='proto.Cell.vel', index=3,
+      number=4, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='dna', full_name='proto.Cell.dna', index=4,
+      number=5, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='connections', full_name='proto.Cell.connections', index=4,
-      number=5, type=11, cpp_type=10, label=3,
+      name='connections', full_name='proto.Cell.connections', index=5,
+      number=6, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -162,8 +169,8 @@ _CELL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=138,
-  serialized_end=265,
+  serialized_start=139,
+  serialized_end=288,
 )
 
 
@@ -207,8 +214,8 @@ _CELLCOMPUTEBATCH = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=267,
-  serialized_end=384,
+  serialized_start=290,
+  serialized_end=407,
 )
 
 
@@ -231,8 +238,8 @@ _BIGBANGREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=386,
-  serialized_end=402,
+  serialized_start=409,
+  serialized_end=425,
 )
 
 _CONNECTION.fields_by_name['direction'].message_type = _VECTOR
@@ -291,8 +298,8 @@ _CELLINTERACTIONSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=405,
-  serialized_end=555,
+  serialized_start=428,
+  serialized_end=578,
   methods=[
   _descriptor.MethodDescriptor(
     name='ComputeCellInteractions',
