@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='proto',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x0eprotocol.proto\x12\x05proto\")\n\x06Vector\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\x12\t\n\x01z\x18\x03 \x01(\x02\"D\n\nConnection\x12\x14\n\x0c\x63onnected_to\x18\x01 \x01(\x04\x12 \n\tdirection\x18\x02 \x01(\x0b\x32\r.proto.Vector\"\x7f\n\x04\x43\x65ll\x12\n\n\x02id\x18\x01 \x01(\x04\x12\x1a\n\x03pos\x18\x02 \x01(\x0b\x32\r.proto.Vector\x12\x1a\n\x03vel\x18\x03 \x01(\x0b\x32\r.proto.Vector\x12\x0b\n\x03\x64na\x18\x04 \x01(\x0c\x12&\n\x0b\x63onnections\x18\x05 \x03(\x0b\x32\x11.proto.Connection\"u\n\x10\x43\x65llComputeBatch\x12\x11\n\ttime_step\x18\x01 \x01(\x04\x12%\n\x10\x63\x65lls_to_compute\x18\x02 \x03(\x0b\x32\x0b.proto.Cell\x12\'\n\x12\x63\x65lls_in_proximity\x18\x03 \x03(\x0b\x32\x0b.proto.Cell2e\n\x16\x43\x65llInteractionService\x12K\n\x17\x43omputeCellInteractions\x12\x17.proto.CellComputeBatch\x1a\x17.proto.CellComputeBatchb\x06proto3')
+  serialized_pb=_b('\n\x0eprotocol.proto\x12\x05proto\")\n\x06Vector\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\x12\t\n\x01z\x18\x03 \x01(\x02\"D\n\nConnection\x12\x14\n\x0c\x63onnected_to\x18\x01 \x01(\x04\x12 \n\tdirection\x18\x02 \x01(\x0b\x32\r.proto.Vector\"\x7f\n\x04\x43\x65ll\x12\n\n\x02id\x18\x01 \x01(\x04\x12\x1a\n\x03pos\x18\x02 \x01(\x0b\x32\r.proto.Vector\x12\x1a\n\x03vel\x18\x03 \x01(\x0b\x32\r.proto.Vector\x12\x0b\n\x03\x64na\x18\x04 \x01(\x0c\x12&\n\x0b\x63onnections\x18\x05 \x03(\x0b\x32\x11.proto.Connection\"u\n\x10\x43\x65llComputeBatch\x12\x11\n\ttime_step\x18\x01 \x01(\x04\x12%\n\x10\x63\x65lls_to_compute\x18\x02 \x03(\x0b\x32\x0b.proto.Cell\x12\'\n\x12\x63\x65lls_in_proximity\x18\x03 \x03(\x0b\x32\x0b.proto.Cell\"\x10\n\x0e\x42igBangRequest2\x96\x01\n\x16\x43\x65llInteractionService\x12K\n\x17\x43omputeCellInteractions\x12\x17.proto.CellComputeBatch\x1a\x17.proto.CellComputeBatch\x12/\n\x07\x42igBang\x12\x15.proto.BigBangRequest\x1a\x0b.proto.Cell0\x01\x62\x06proto3')
 )
 
 
@@ -211,6 +211,30 @@ _CELLCOMPUTEBATCH = _descriptor.Descriptor(
   serialized_end=384,
 )
 
+
+_BIGBANGREQUEST = _descriptor.Descriptor(
+  name='BigBangRequest',
+  full_name='proto.BigBangRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=386,
+  serialized_end=402,
+)
+
 _CONNECTION.fields_by_name['direction'].message_type = _VECTOR
 _CELL.fields_by_name['pos'].message_type = _VECTOR
 _CELL.fields_by_name['vel'].message_type = _VECTOR
@@ -221,6 +245,7 @@ DESCRIPTOR.message_types_by_name['Vector'] = _VECTOR
 DESCRIPTOR.message_types_by_name['Connection'] = _CONNECTION
 DESCRIPTOR.message_types_by_name['Cell'] = _CELL
 DESCRIPTOR.message_types_by_name['CellComputeBatch'] = _CELLCOMPUTEBATCH
+DESCRIPTOR.message_types_by_name['BigBangRequest'] = _BIGBANGREQUEST
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Vector = _reflection.GeneratedProtocolMessageType('Vector', (_message.Message,), dict(
@@ -251,6 +276,13 @@ CellComputeBatch = _reflection.GeneratedProtocolMessageType('CellComputeBatch', 
   ))
 _sym_db.RegisterMessage(CellComputeBatch)
 
+BigBangRequest = _reflection.GeneratedProtocolMessageType('BigBangRequest', (_message.Message,), dict(
+  DESCRIPTOR = _BIGBANGREQUEST,
+  __module__ = 'protocol_pb2'
+  # @@protoc_insertion_point(class_scope:proto.BigBangRequest)
+  ))
+_sym_db.RegisterMessage(BigBangRequest)
+
 
 
 _CELLINTERACTIONSERVICE = _descriptor.ServiceDescriptor(
@@ -259,8 +291,8 @@ _CELLINTERACTIONSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=386,
-  serialized_end=487,
+  serialized_start=405,
+  serialized_end=555,
   methods=[
   _descriptor.MethodDescriptor(
     name='ComputeCellInteractions',
@@ -269,6 +301,15 @@ _CELLINTERACTIONSERVICE = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=_CELLCOMPUTEBATCH,
     output_type=_CELLCOMPUTEBATCH,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='BigBang',
+    full_name='proto.CellInteractionService.BigBang',
+    index=1,
+    containing_service=None,
+    input_type=_BIGBANGREQUEST,
+    output_type=_CELL,
     serialized_options=None,
   ),
 ])

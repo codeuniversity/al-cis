@@ -1,0 +1,5 @@
+import numpy as np
+
+_ONE_DAY_IN_SECONDS = 60 * 60 * 24
+WORLD_DIMENSIONS = np.array([100,100,100])
+NUMBER_OF_INITIAL_CELLS = 20
