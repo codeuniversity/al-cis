@@ -1,0 +1,3 @@
+[submodule "al-proto"]
+	path = al-proto
+	url = git@github.com:codeuniversity/al-proto.git
