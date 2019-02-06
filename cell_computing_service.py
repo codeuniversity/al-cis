@@ -2,69 +2,49 @@ import numpy as np
 import grpc
 import protocol_pb2 as proto
 import protocol_pb2_grpc as grpc_proto
-import cis_config as config
+import cis_config as conf
 import random
+import time
 
-def array_2_vec(array):
-    return list_2_vec(array.tolist())
 
-def list_2_vec(liste):
-    assert len(liste) == 3
-    return proto.Vector(x=liste[0],y=liste[1],z=liste[2])
-
-def vec_2_array(vec):
-    return np.array([vec.x,vec.y,vec.z])
-
-def env_find_food(seed, time, pos):
-    random.seed(seed)
-    energy = random.randrange(0, config.MAX_FOOD_ENERGY)    
-    return energy
-
-def env_movement(seed, time, pos):
-    random.seed(seed)
-    x = random.randrange(0,config.MAX_VELOCITY)
-    y = random.randrange(0,config.MAX_VELOCITY)
-    z = random.randrange(0,config.MAX_VELOCITY)
-    return np.array([x,y,z])
 
 class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
     """
     """
 
-    def ComputeCellInteractions(self, request, context):
-        new_cell_batch = []
-        # Move Cells
-        for cell in request.cells_to_compute:
-            new_pos = env_movement(config.MOV_SEED, request.time_step, cell.pos) + vec_2_array(cell.pos)
-            cell.pos.x = new_pos[0]
-            cell.pos.y = new_pos[1]
-            cell.pos.z = new_pos[2]
-        # Let Cells interact
-        for cell in request.cells_to_compute:
-            for _cell in request.cells_to_compute:
-                if all(vec_2_array(_cell.pos) == vec_2_array(cell.pos)):
-                    # interact
-                    pass
-            for _cell in request.cells_in_proximity:
-                if all(vec_2_array(_cell.pos) == vec_2_array(cell.pos)):
-                    # interact
-                    pass
-        # Feed Cells
-        for cell in request.cells_to_compute:
-            new_energy = env_find_food(config.FOOD_SEED, request.time_step, cell.pos) + cell.energy_level
-            if new_energy < config.STARVATION_THRESHOLD:
-                pass
+    def ComputeCellInteractions(self, incoming_batch, context):
+        new_cells = []
+        # Movement
+        for c in incoming_batch.cells_to_compute:
+            c.pos.x+= random.uniform(-conf.WORLD_VELOCITY, conf.WORLD_VELOCITY)
+            c.pos.y+= random.uniform(-conf.WORLD_VELOCITY, conf.WORLD_VELOCITY)
+            c.pos.z+= random.uniform(-conf.WORLD_VELOCITY, conf.WORLD_VELOCITY)
+        # Interaction
+
+        # Energy
+        for c in incoming_batch.cells_to_compute:
+            f = random.uniform(0, 1)
+            if f<conf.FOOD_THRESHOLD:
+                c.energy_level += conf.FOOD_ENERGY
             else:
-                cell.energy_level = new_energy
-                new_cell_batch.append(cell)
-        response = proto.CellComputeBatch(time_step=request.time_step+1, cells_to_compute=new_cell_batch, cells_in_proximity=request.cells_in_proximity)
-        return response
+                c.energy_level -= conf.GENERAL_ENERGY_CONSUMPTION
+            if c.energy_level>10:
+                new_cells.append(c)
+        
+        # Division
+        
+        new_CellComputeBatch = proto.CellComputeBatch(time_step=incoming_batch.time_step, cells_to_compute=new_cells, cells_in_proximity=incoming_batch.cells_in_proximity)
+        #time.sleep(0.1)
+        return new_CellComputeBatch
+
+
+
 
     def BigBang(self, request, context):
-        global max_cell_id
-        for i in range(config.NUMBER_OF_INITIAL_CELLS):
-            pos = np.random.rand(3) * config.WORLD_DIMENSIONS
-            dna = bytes()
-            c = proto.Cell(id=i, energy_level=20, pos=array_2_vec(pos), vel=list_2_vec([0,0,0]), dna=dna, connections=[])
-            yield c
-        max_cell_id = i
+        for i in range(conf.INITIAL_NUMBER_CELLS):
+            initial_position = []
+            for j in conf.WORLD_DIMENSION:
+                initial_position.append(random.uniform(0, j))
+            initial_position=proto.Vector(x=initial_position[0], y=initial_position[1], z=initial_position[2])
+            cell = proto.Cell(id=i, energy_level=conf.INITIAL_ENERGY_LEVEL, pos=initial_position, vel=proto.Vector(x=0, y=0, z=0), dna=bytes(), connections=[])
+            yield cell
