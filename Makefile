@@ -7,3 +7,6 @@ proto:
 
 run:
 	env/bin/python main.py
+
+image:
+	docker build -t al-cis .
