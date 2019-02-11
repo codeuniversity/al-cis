@@ -30,17 +30,18 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
                 c.energy_level += conf.FOOD_ENERGY
             else:
                 c.energy_level -= conf.GENERAL_ENERGY_CONSUMPTION
-            if c.energy_level > 10:
+            if c.energy_level > conf.ENERGY_THRESHOLD:
                 new_cells.append(c)
 
         # Division
 
-        new_CellComputeBatch = proto.CellComputeBatch(
+        new_batch = proto.CellComputeBatch(
             time_step=incoming_batch.time_step,
             cells_to_compute=new_cells,
-            cells_in_proximity=incoming_batch.cells_in_proximity)
+            cells_in_proximity=incoming_batch.cells_in_proximity,
+            )
         # time.sleep(0.1)
-        return new_CellComputeBatch
+        return new_batch
 
     def BigBang(self, request, context):
         for i in range(conf.INITIAL_NUMBER_CELLS):
