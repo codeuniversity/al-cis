@@ -6,12 +6,15 @@ import cis_config as conf
 import random
 import time
 
+cell_id_counter = 0
+
 
 class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
     """
     """
 
     def ComputeCellInteractions(self, incoming_batch, context):
+        global cell_id_counter
         new_cells = []
         # Movement
         for c in incoming_batch.cells_to_compute:
@@ -34,6 +37,22 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
                 new_cells.append(c)
 
         # Division
+        for c in incoming_batch.cells_to_compute:
+            if c.energy_level > conf.DIVISION_THRESHOLD:
+                c.energy_level -= 200
+
+                nc = proto.Cell(
+                    id=conf.INITIAL_NUMBER_CELLS + cell_id_counter,
+                    energy_level=conf.INITIAL_ENERGY_LEVEL,
+                    pos=c.pos,
+                    vel=proto.Vector(
+                        x=0,
+                        y=0,
+                        z=0),
+                    dna=bytes(),
+                    connections=[])
+                cell_id_counter += 1
+                new_cells.append(nc)
 
         new_batch = proto.CellComputeBatch(
             time_step=incoming_batch.time_step,
