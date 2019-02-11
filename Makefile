@@ -10,3 +10,9 @@ run:
 
 image:
 	docker build -t al-cis .
+
+check-format:
+	env/bin/pycodestyle *.py
+
+autoformat:
+	env/bin/autopep8 -ia *.py
