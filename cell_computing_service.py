@@ -1,11 +1,10 @@
 import numpy as np
 import grpc
-import protocol_pb2 as proto
-import protocol_pb2_grpc as grpc_proto
+import protobuffer.protocol_pb2 as proto
+import protobuffer.protocol_pb2_grpc as grpc_proto
 import cis_config as conf
 import random
 import time
-
 
 
 class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
