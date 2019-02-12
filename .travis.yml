@@ -1,9 +1,12 @@
 language: python
 python:
   - "3.6"
+
 git:
   submodules: false
+
 install:
-  - pip install -r requirements.txt
+  - make dep
+
 script:
   - make check-format
