@@ -1,0 +1,12 @@
+language: python
+python:
+  - "3.6"
+
+git:
+  submodules: false
+
+install:
+  - make dep
+
+script:
+  - make check-format
