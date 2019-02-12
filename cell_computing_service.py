@@ -39,7 +39,7 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
         # Division
         for c in incoming_batch.cells_to_compute:
             if c.energy_level > conf.DIVISION_THRESHOLD:
-                c.energy_level -= 200
+                c.energy_level -= conf.DIVISION_ENERGY_COST
 
                 nc = proto.Cell(
                     id=conf.INITIAL_NUMBER_CELLS + cell_id_counter,
