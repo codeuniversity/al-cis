@@ -1,12 +1,12 @@
 dep:
-	if [ ! -d "env" ];then python3 -m venv env;fi
+	if [ ! -d "env" ];then virtualenv env;fi
 	env/bin/pip install -r requirements.txt
 
 proto:
 	env/bin/python -m grpc_tools.protoc -Ial-proto --python_out=. --grpc_python_out=. al-proto/protocol.proto
 
 run:
-	env/bin/python main.py
+	GRPC_PORT=5000 MASTER_ADDRESS='localhost:3000' HOST='localhost' env/bin/python main.py
 
 image:
 	docker build -t codealife/al-cis .
