@@ -14,12 +14,17 @@ def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     grpc_proto.add_CellInteractionServiceServicer_to_server(
         CellComputeServicer(), server)
-    server.add_insecure_port('[::]:'+os.environ['GRPC_PORT'])
+    server.add_insecure_port('[::]:' + os.environ['GRPC_PORT'])
     server.start()
 
     channel = grpc.insecure_channel(os.environ['MASTER_ADDRESS'])
     stub = grpc_proto.SlaveRegistrationServiceStub(channel)
-    stub.Register(proto.SlaveRegistration(address=os.environ['HOST']+":"+os.environ['GRPC_PORT'], threads=4))
+    stub.Register(
+        proto.SlaveRegistration(
+            address=os.environ['HOST'] +
+            ":" +
+            os.environ['GRPC_PORT'],
+            threads=4))
 
     try:
         while True:
