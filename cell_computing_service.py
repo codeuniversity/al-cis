@@ -1,7 +1,7 @@
 import numpy as np
 import grpc
-import protobuffer.protocol_pb2 as proto
-import protobuffer.protocol_pb2_grpc as grpc_proto
+import protocol_pb2 as proto
+import protocol_pb2_grpc as grpc_proto
 import cis_config as conf
 import random
 import time
@@ -58,7 +58,7 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
             time_step=incoming_batch.time_step,
             cells_to_compute=new_cells,
             cells_in_proximity=incoming_batch.cells_in_proximity,
-            )
+        )
         # time.sleep(0.1)
         return new_batch
 

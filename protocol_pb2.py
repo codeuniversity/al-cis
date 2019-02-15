@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='proto',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x0eprotocol.proto\x12\x05proto\")\n\x06Vector\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\x12\t\n\x01z\x18\x03 \x01(\x02\"D\n\nConnection\x12\x14\n\x0c\x63onnected_to\x18\x01 \x01(\x04\x12 \n\tdirection\x18\x02 \x01(\x0b\x32\r.proto.Vector\"\x95\x01\n\x04\x43\x65ll\x12\n\n\x02id\x18\x01 \x01(\x04\x12\x14\n\x0c\x65nergy_level\x18\x02 \x01(\x04\x12\x1a\n\x03pos\x18\x03 \x01(\x0b\x32\r.proto.Vector\x12\x1a\n\x03vel\x18\x04 \x01(\x0b\x32\r.proto.Vector\x12\x0b\n\x03\x64na\x18\x05 \x01(\x0c\x12&\n\x0b\x63onnections\x18\x06 \x03(\x0b\x32\x11.proto.Connection\"u\n\x10\x43\x65llComputeBatch\x12\x11\n\ttime_step\x18\x01 \x01(\x04\x12%\n\x10\x63\x65lls_to_compute\x18\x02 \x03(\x0b\x32\x0b.proto.Cell\x12\'\n\x12\x63\x65lls_in_proximity\x18\x03 \x03(\x0b\x32\x0b.proto.Cell\"\x10\n\x0e\x42igBangRequest2\x96\x01\n\x16\x43\x65llInteractionService\x12K\n\x17\x43omputeCellInteractions\x12\x17.proto.CellComputeBatch\x1a\x17.proto.CellComputeBatch\x12/\n\x07\x42igBang\x12\x15.proto.BigBangRequest\x1a\x0b.proto.Cell0\x01\x62\x06proto3')
+  serialized_pb=_b('\n\x0eprotocol.proto\x12\x05proto\")\n\x06Vector\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\x12\t\n\x01z\x18\x03 \x01(\x02\"\"\n\nConnection\x12\x14\n\x0c\x63onnected_to\x18\x01 \x01(\x04\"\x95\x01\n\x04\x43\x65ll\x12\n\n\x02id\x18\x01 \x01(\x04\x12\x14\n\x0c\x65nergy_level\x18\x02 \x01(\x04\x12\x1a\n\x03pos\x18\x03 \x01(\x0b\x32\r.proto.Vector\x12\x1a\n\x03vel\x18\x04 \x01(\x0b\x32\r.proto.Vector\x12\x0b\n\x03\x64na\x18\x05 \x01(\x0c\x12&\n\x0b\x63onnections\x18\x06 \x03(\x0b\x32\x11.proto.Connection\"u\n\x10\x43\x65llComputeBatch\x12\x11\n\ttime_step\x18\x01 \x01(\x04\x12%\n\x10\x63\x65lls_to_compute\x18\x02 \x03(\x0b\x32\x0b.proto.Cell\x12\'\n\x12\x63\x65lls_in_proximity\x18\x03 \x03(\x0b\x32\x0b.proto.Cell\"\x10\n\x0e\x42igBangRequest\"5\n\x11SlaveRegistration\x12\x0f\n\x07\x61\x64\x64ress\x18\x01 \x01(\t\x12\x0f\n\x07threads\x18\x02 \x01(\r\"\x1b\n\x19SlaveRegistrationResponse2\x96\x01\n\x16\x43\x65llInteractionService\x12K\n\x17\x43omputeCellInteractions\x12\x17.proto.CellComputeBatch\x1a\x17.proto.CellComputeBatch\x12/\n\x07\x42igBang\x12\x15.proto.BigBangRequest\x1a\x0b.proto.Cell0\x01\x32\x62\n\x18SlaveRegistrationService\x12\x46\n\x08Register\x12\x18.proto.SlaveRegistration\x1a .proto.SlaveRegistrationResponseb\x06proto3')
 )
 
 
@@ -84,13 +84,6 @@ _CONNECTION = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='direction', full_name='proto.Connection.direction', index=1,
-      number=2, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -104,7 +97,7 @@ _CONNECTION = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=68,
-  serialized_end=136,
+  serialized_end=102,
 )
 
 
@@ -169,8 +162,8 @@ _CELL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=139,
-  serialized_end=288,
+  serialized_start=105,
+  serialized_end=254,
 )
 
 
@@ -214,8 +207,8 @@ _CELLCOMPUTEBATCH = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=290,
-  serialized_end=407,
+  serialized_start=256,
+  serialized_end=373,
 )
 
 
@@ -238,11 +231,72 @@ _BIGBANGREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=409,
-  serialized_end=425,
+  serialized_start=375,
+  serialized_end=391,
 )
 
-_CONNECTION.fields_by_name['direction'].message_type = _VECTOR
+
+_SLAVEREGISTRATION = _descriptor.Descriptor(
+  name='SlaveRegistration',
+  full_name='proto.SlaveRegistration',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='address', full_name='proto.SlaveRegistration.address', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='threads', full_name='proto.SlaveRegistration.threads', index=1,
+      number=2, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=393,
+  serialized_end=446,
+)
+
+
+_SLAVEREGISTRATIONRESPONSE = _descriptor.Descriptor(
+  name='SlaveRegistrationResponse',
+  full_name='proto.SlaveRegistrationResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=448,
+  serialized_end=475,
+)
+
 _CELL.fields_by_name['pos'].message_type = _VECTOR
 _CELL.fields_by_name['vel'].message_type = _VECTOR
 _CELL.fields_by_name['connections'].message_type = _CONNECTION
@@ -253,6 +307,8 @@ DESCRIPTOR.message_types_by_name['Connection'] = _CONNECTION
 DESCRIPTOR.message_types_by_name['Cell'] = _CELL
 DESCRIPTOR.message_types_by_name['CellComputeBatch'] = _CELLCOMPUTEBATCH
 DESCRIPTOR.message_types_by_name['BigBangRequest'] = _BIGBANGREQUEST
+DESCRIPTOR.message_types_by_name['SlaveRegistration'] = _SLAVEREGISTRATION
+DESCRIPTOR.message_types_by_name['SlaveRegistrationResponse'] = _SLAVEREGISTRATIONRESPONSE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Vector = _reflection.GeneratedProtocolMessageType('Vector', (_message.Message,), dict(
@@ -290,6 +346,20 @@ BigBangRequest = _reflection.GeneratedProtocolMessageType('BigBangRequest', (_me
   ))
 _sym_db.RegisterMessage(BigBangRequest)
 
+SlaveRegistration = _reflection.GeneratedProtocolMessageType('SlaveRegistration', (_message.Message,), dict(
+  DESCRIPTOR = _SLAVEREGISTRATION,
+  __module__ = 'protocol_pb2'
+  # @@protoc_insertion_point(class_scope:proto.SlaveRegistration)
+  ))
+_sym_db.RegisterMessage(SlaveRegistration)
+
+SlaveRegistrationResponse = _reflection.GeneratedProtocolMessageType('SlaveRegistrationResponse', (_message.Message,), dict(
+  DESCRIPTOR = _SLAVEREGISTRATIONRESPONSE,
+  __module__ = 'protocol_pb2'
+  # @@protoc_insertion_point(class_scope:proto.SlaveRegistrationResponse)
+  ))
+_sym_db.RegisterMessage(SlaveRegistrationResponse)
+
 
 
 _CELLINTERACTIONSERVICE = _descriptor.ServiceDescriptor(
@@ -298,8 +368,8 @@ _CELLINTERACTIONSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=428,
-  serialized_end=578,
+  serialized_start=478,
+  serialized_end=628,
   methods=[
   _descriptor.MethodDescriptor(
     name='ComputeCellInteractions',
@@ -323,5 +393,29 @@ _CELLINTERACTIONSERVICE = _descriptor.ServiceDescriptor(
 _sym_db.RegisterServiceDescriptor(_CELLINTERACTIONSERVICE)
 
 DESCRIPTOR.services_by_name['CellInteractionService'] = _CELLINTERACTIONSERVICE
+
+
+_SLAVEREGISTRATIONSERVICE = _descriptor.ServiceDescriptor(
+  name='SlaveRegistrationService',
+  full_name='proto.SlaveRegistrationService',
+  file=DESCRIPTOR,
+  index=1,
+  serialized_options=None,
+  serialized_start=630,
+  serialized_end=728,
+  methods=[
+  _descriptor.MethodDescriptor(
+    name='Register',
+    full_name='proto.SlaveRegistrationService.Register',
+    index=0,
+    containing_service=None,
+    input_type=_SLAVEREGISTRATION,
+    output_type=_SLAVEREGISTRATIONRESPONSE,
+    serialized_options=None,
+  ),
+])
+_sym_db.RegisterServiceDescriptor(_SLAVEREGISTRATIONSERVICE)
+
+DESCRIPTOR.services_by_name['SlaveRegistrationService'] = _SLAVEREGISTRATIONSERVICE
 
 # @@protoc_insertion_point(module_scope)

@@ -2,7 +2,7 @@ from concurrent import futures
 import time
 import logging
 import grpc
-import protobuffer.protocol_pb2_grpc as grpc_proto
+import protocol_pb2_grpc as grpc_proto
 
 from cell_computing_service import CellComputeServicer
 import cis_config as config
