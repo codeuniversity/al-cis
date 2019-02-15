@@ -16,3 +16,8 @@ check-format:
 
 autoformat:
 	env/bin/autopep8 -ia *.py
+
+docker-push:
+	echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+	docker tag al-master codealife/al-cis:latest
+	docker push codealife/al-cis:latest
