@@ -31,8 +31,8 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
             f = random.uniform(0, 1)
             if f < conf.FOOD_THRESHOLD:
                 c.energy_level += conf.FOOD_ENERGY
-            else:
-                c.energy_level -= conf.GENERAL_ENERGY_CONSUMPTION
+
+            c.energy_level -= conf.GENERAL_ENERGY_CONSUMPTION
             if c.energy_level > conf.ENERGY_THRESHOLD:
                 new_cells.append(c)
 
