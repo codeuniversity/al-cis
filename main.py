@@ -3,6 +3,7 @@ import time
 import logging
 import grpc
 import protocol_pb2_grpc as grpc_proto
+import protocol_pb2 as proto
 
 from cell_computing_service import CellComputeServicer
 import cis_config as config
@@ -14,6 +15,11 @@ def serve():
         CellComputeServicer(), server)
     server.add_insecure_port('[::]:5000')
     server.start()
+
+    channel = grpc.insecure_channel('localhost:3000')
+    stub = grpc_proto.SlaveRegistrationServiceStub(channel)
+    stub.Register(proto.SlaveRegistration(address="localhost:5000", threads=4))
+
     try:
         while True:
             time.sleep(config._ONE_DAY_IN_SECONDS)
