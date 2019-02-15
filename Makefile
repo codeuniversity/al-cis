@@ -9,7 +9,7 @@ run:
 	env/bin/python main.py
 
 image:
-	docker build -t al-cis .
+	docker build -t codealife/al-cis .
 
 check-format:
 	env/bin/pycodestyle *.py
@@ -19,5 +19,4 @@ autoformat:
 
 docker-push:
 	echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
-	docker tag al-master codealife/al-cis:latest
 	docker push codealife/al-cis:latest
