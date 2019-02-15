@@ -2,6 +2,9 @@ language: python
 python:
   - "3.6"
 
+services:
+  - docker
+
 git:
   submodules: false
 
@@ -10,3 +13,9 @@ install:
 
 script:
   - make check-format
+
+deploy:
+  provider: script
+  script: make image docker-push
+  on:
+    branch: master
