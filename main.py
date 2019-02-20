@@ -24,7 +24,7 @@ def serve():
             address=os.environ['HOST'] +
             ":" +
             os.environ['GRPC_PORT'],
-            threads=4))
+            threads=1))
 
     try:
         while True:

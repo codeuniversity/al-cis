@@ -5,7 +5,8 @@ import protocol_pb2_grpc as grpc_proto
 import cis_config as conf
 import random
 import time
-
+import dna_decoding
+import os
 cell_id_counter = 0
 
 
@@ -29,8 +30,8 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
         # Energy
         for c in incoming_batch.cells_to_compute:
             f = random.uniform(0, 1)
-            if f < conf.FOOD_THRESHOLD:
-                c.energy_level += conf.FOOD_ENERGY
+            if f < dna_decoding.food_theshold(c.dna):
+                c.energy_level += dna_decoding.food_amount(c.dna)
 
             c.energy_level -= conf.GENERAL_ENERGY_CONSUMPTION
             if c.energy_level > conf.ENERGY_THRESHOLD:
@@ -38,18 +39,20 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
 
         # Division
         for c in incoming_batch.cells_to_compute:
-            if c.energy_level > conf.DIVISION_THRESHOLD:
-                c.energy_level -= conf.DIVISION_ENERGY_COST
+            initial_energy = int(dna_decoding.initial_energy(c.dna))
+            cost = conf.DIVISION_ENERGY_COST + initial_energy
+            if c.energy_level > dna_decoding.division_treshold(c.dna) + cost:
+                c.energy_level -= cost
 
                 nc = proto.Cell(
                     id=conf.INITIAL_NUMBER_CELLS + cell_id_counter,
-                    energy_level=conf.INITIAL_ENERGY_LEVEL,
+                    energy_level=initial_energy,
                     pos=c.pos,
                     vel=proto.Vector(
                         x=0,
                         y=0,
                         z=0),
-                    dna=bytes(),
+                    dna=c.dna,
                     connections=[])
                 cell_id_counter += 1
                 new_cells.append(nc)
@@ -59,7 +62,7 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
             cells_to_compute=new_cells,
             cells_in_proximity=incoming_batch.cells_in_proximity,
         )
-        # time.sleep(0.1)
+        # time.sleep(0.05)
         return new_batch
 
     def BigBang(self, request, context):
@@ -79,6 +82,6 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
                     x=0,
                     y=0,
                     z=0),
-                dna=bytes(),
+                dna=bytes(os.urandom(random.randint(3,6))),
                 connections=[])
             yield cell
