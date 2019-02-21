@@ -5,8 +5,7 @@ import protocol_pb2_grpc as grpc_proto
 import cis_config as conf
 import random
 import time
-
-cell_id_counter = 0
+import uuid
 
 
 class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
@@ -14,7 +13,6 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
     """
 
     def ComputeCellInteractions(self, incoming_batch, context):
-        global cell_id_counter
         new_cells = []
         # Movement
         for c in incoming_batch.cells_to_compute:
@@ -42,7 +40,7 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
                 c.energy_level -= conf.DIVISION_ENERGY_COST
 
                 nc = proto.Cell(
-                    id=conf.INITIAL_NUMBER_CELLS + cell_id_counter,
+                    id=uuid.uuid1(),
                     energy_level=conf.INITIAL_ENERGY_LEVEL,
                     pos=c.pos,
                     vel=proto.Vector(
@@ -51,7 +49,6 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
                         z=0),
                     dna=bytes(),
                     connections=[])
-                cell_id_counter += 1
                 new_cells.append(nc)
 
         new_batch = proto.CellComputeBatch(
@@ -72,7 +69,7 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
                 y=initial_position[1],
                 z=initial_position[2])
             cell = proto.Cell(
-                id=i,
+                id=uuid.uuid1(),
                 energy_level=conf.INITIAL_ENERGY_LEVEL,
                 pos=initial_position,
                 vel=proto.Vector(
