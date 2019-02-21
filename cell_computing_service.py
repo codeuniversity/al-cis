@@ -82,6 +82,6 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
                     x=0,
                     y=0,
                     z=0),
-                dna=bytes(os.urandom(random.randint(3,6))),
+                dna=bytes(os.urandom(random.randint(3, 6))),
                 connections=[])
             yield cell
