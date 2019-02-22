@@ -40,7 +40,7 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
                 c.energy_level -= conf.DIVISION_ENERGY_COST
 
                 nc = proto.Cell(
-                    id=uuid.uuid1(),
+                    id=str(uuid.uuid1()),
                     energy_level=conf.INITIAL_ENERGY_LEVEL,
                     pos=c.pos,
                     vel=proto.Vector(
@@ -69,7 +69,7 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
                 y=initial_position[1],
                 z=initial_position[2])
             cell = proto.Cell(
-                id=uuid.uuid1(),
+                id=str(uuid.uuid1()),
                 energy_level=conf.INITIAL_ENERGY_LEVEL,
                 pos=initial_position,
                 vel=proto.Vector(
