@@ -10,7 +10,7 @@ class Curl():
         self.vec_len = vec_len
 
     def _P(self, x, y, z):
-        nx = -0.1 * x
+        nx = 0
         return nx
 
     def _Q(self, x, y, z):
