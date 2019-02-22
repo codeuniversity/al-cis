@@ -7,56 +7,42 @@ import random
 import time
 import uuid
 
+import cis_env
+import cis_cell
+
 
 class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
     """
     """
 
     def ComputeCellInteractions(self, incoming_batch, context):
-        new_cells = []
         # Movement
         for c in incoming_batch.cells_to_compute:
-            c.pos.x += random.uniform(-conf.WORLD_VELOCITY,
-                                      conf.WORLD_VELOCITY)
-            c.pos.y += random.uniform(-conf.WORLD_VELOCITY,
-                                      conf.WORLD_VELOCITY)
-            c.pos.z += random.uniform(-conf.WORLD_VELOCITY,
-                                      conf.WORLD_VELOCITY)
+            cis_env.enforce_movement(c)
+
         # Interaction
 
         # Energy
         for c in incoming_batch.cells_to_compute:
-            f = random.uniform(0, 1)
-            if f < conf.FOOD_THRESHOLD:
-                c.energy_level += conf.FOOD_ENERGY
+            cis_env.feed_cell(c)
 
-            c.energy_level -= conf.GENERAL_ENERGY_CONSUMPTION
-            if c.energy_level > conf.ENERGY_THRESHOLD:
-                new_cells.append(c)
+        # Survival
+        living_cells = []
+        for c in incoming_batch.cells_to_compute:
+            if cis_cell.is_alive(c):
+                living_cells.append(c)
 
         # Division
-        for c in incoming_batch.cells_to_compute:
-            if c.energy_level > conf.DIVISION_THRESHOLD:
-                c.energy_level -= conf.DIVISION_ENERGY_COST
-
-                nc = proto.Cell(
-                    id=str(uuid.uuid1()),
-                    energy_level=conf.INITIAL_ENERGY_LEVEL,
-                    pos=c.pos,
-                    vel=proto.Vector(
-                        x=0,
-                        y=0,
-                        z=0),
-                    dna=bytes(),
-                    connections=[])
-                new_cells.append(nc)
+        for c in living_cells:
+            new_cell = cis_cell.divide(c)
+            if new_cell is not None:
+                living_cells.append(new_cell)
 
         new_batch = proto.CellComputeBatch(
             time_step=incoming_batch.time_step,
-            cells_to_compute=new_cells,
+            cells_to_compute=living_cells,
             cells_in_proximity=incoming_batch.cells_in_proximity,
         )
-        # time.sleep(0.1)
         return new_batch
 
     def BigBang(self, request, context):
