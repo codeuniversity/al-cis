@@ -24,9 +24,9 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
         id_to_cell_moved = {}
         id_to_cell_energy_averaged = {}
         for c in incoming_batch.cells_to_compute:
-            id_to_cell[str(c.id)] = c
+            id_to_cell[c.id] = c
         for c in incoming_batch.cells_in_proximity:
-            id_to_cell[str(c.id)] = c
+            id_to_cell[c.id] = c
 
         # Movement
         for c in incoming_batch.cells_to_compute:
