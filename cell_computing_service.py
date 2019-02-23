@@ -8,7 +8,7 @@ import time
 import dna_decoding
 import os
 import math
-cell_id_counter = 0
+import uuid
 
 
 class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
@@ -16,7 +16,6 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
     """
 
     def ComputeCellInteractions(self, incoming_batch, context):
-        global cell_id_counter
         new_cells = []
         id_to_cell = {}
         id_to_cell_moved = {}
@@ -53,7 +52,7 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
             if c.energy_level > dna_decoding.division_treshold(c.dna) + cost:
                 c.energy_level -= cost
 
-                child_id = conf.INITIAL_NUMBER_CELLS + cell_id_counter
+                child_id = str(uuid.uuid1())
                 child_connections = []
 
                 if dna_decoding.builds_connection_after_division(
@@ -85,7 +84,6 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
                         z=0),
                     dna=child_dna,
                     connections=child_connections)
-                cell_id_counter += 1
                 new_cells.append(nc)
 
         new_batch = proto.CellComputeBatch(
@@ -106,7 +104,7 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
                 y=initial_position[1],
                 z=initial_position[2])
             cell = proto.Cell(
-                id=i,
+                id=str(uuid.uuid1()),
                 energy_level=conf.INITIAL_ENERGY_LEVEL,
                 pos=initial_position,
                 vel=proto.Vector(
