@@ -5,6 +5,8 @@ import uuid
 import random
 import math
 import dna_decoding
+
+
 def move(cell):
     pass
 
@@ -16,13 +18,17 @@ def is_alive(cell):
     else:
         return True
 
+
 def builds_connection_after_division(cell):
-    return dna_decoding.builds_connection_after_division(cell.dna, len(cell.connections))
+    return dna_decoding.builds_connection_after_division(
+        cell.dna, len(cell.connections))
+
 
 def dna_copy_or_sub_slice(cell):
     if dna_decoding.dna_should_sub_slice(cell.dna, len(cell.connections)):
         return dna_decoding.dna_sub_slice(cell.dna, len(cell.connections))
     return cell.dna
+
 
 def divide(cell):
     initial_energy = int(dna_decoding.initial_energy(cell.dna))
@@ -36,7 +42,7 @@ def divide(cell):
         if builds_connection_after_division(cell):
             child_connections.append(proto.Connection(connected_to=cell.id))
             conn = cell.connections.add()
-            conn.connected_to=child_id
+            conn.connected_to = child_id
 
         child_dna = dna_decoding.mutate_dna_with_chance(
             dna_copy_or_sub_slice(cell),
@@ -63,6 +69,7 @@ def randomly_shifted_pos(pos, shift_dist):
         y=pos.y + d_y,
         z=pos.z + d_z,
     )
+
 
 def random_vector_of_length(l):
     x = random.uniform(1 / 10 * 6, 2) - 1

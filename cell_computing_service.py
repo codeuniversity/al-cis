@@ -30,12 +30,19 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
 
         # Movement
         for c in incoming_batch.cells_to_compute:
-            cis_env.move_cell_and_connected_cells(c, id_to_cell, id_to_cell_moved)
+            cis_env.move_cell_and_connected_cells(
+                c, id_to_cell, id_to_cell_moved)
         # Interaction
 
         # Energy
         for c in incoming_batch.cells_to_compute:
-            cis_env.feed_cell(c,id_to_cell, id_to_cell_energy_averaged, food_factor = conf.WANTED_CELL_AMOUNT_PER_BUCKET / len(incoming_batch.cells_to_compute))
+            cis_env.feed_cell(
+                c,
+                id_to_cell,
+                id_to_cell_energy_averaged,
+                food_factor=conf.WANTED_CELL_AMOUNT_PER_BUCKET /
+                len(
+                    incoming_batch.cells_to_compute))
 
         # Survival
         living_cells = []

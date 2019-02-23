@@ -3,6 +3,8 @@ import random
 import numpy as np
 import dna_decoding
 from cis_cell import random_vector_of_length
+
+
 class Curl():
     def __init__(self, coor_origin, vec_len):
         self.coor_origin = coor_origin
@@ -40,10 +42,12 @@ curl = Curl(
     0.002
 )
 
+
 def feed_cell(cell, cell_dict, already_averaged_dict, food_factor=1):
     f = random.uniform(0, 1)
     if f < dna_decoding.food_theshold(cell.dna):
-        cell.energy_level += int(dna_decoding.food_amount(cell.dna) * food_factor)
+        cell.energy_level += int(dna_decoding.food_amount(cell.dna)
+                                 * food_factor)
     if conf.GENERAL_ENERGY_CONSUMPTION < cell.energy_level:
         cell.energy_level -= conf.GENERAL_ENERGY_CONSUMPTION
     else:
@@ -52,11 +56,12 @@ def feed_cell(cell, cell_dict, already_averaged_dict, food_factor=1):
     average_out_energy_in_connected_cells(
         cell, cell_dict, already_averaged_dict)
 
+
 def get_value(dict, key):
     try:
         value = dict[key]
         return value, True
-    except:
+    except BaseException:
         return None, False
 
 

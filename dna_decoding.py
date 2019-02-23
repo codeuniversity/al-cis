@@ -110,7 +110,7 @@ def mutate_dna_with_chance(dna, chance):
             bit_string = mutate_bit_string(bit_string)
         new_dna_bit_string += bit_string
     if random_bool_with_threshold(chance):
-        new_dna_bit_string += '0'*8
+        new_dna_bit_string += '0' * 8
     return BitArray(bin=new_dna_bit_string).bytes
 
 
