@@ -2,7 +2,7 @@ import cis_config as conf
 import random
 import numpy as np
 import dna_decoding
-
+from cis_cell import random_vector_of_length
 class Curl():
     def __init__(self, coor_origin, vec_len):
         self.coor_origin = coor_origin
@@ -44,8 +44,11 @@ def feed_cell(cell, cell_dict, already_averaged_dict, food_factor=1):
     f = random.uniform(0, 1)
     if f < dna_decoding.food_theshold(cell.dna):
         cell.energy_level += int(dna_decoding.food_amount(cell.dna) * food_factor)
+    if conf.GENERAL_ENERGY_CONSUMPTION < cell.energy_level:
+        cell.energy_level -= conf.GENERAL_ENERGY_CONSUMPTION
+    else:
+        cell.energy_level = 0
 
-    cell.energy_level -= conf.GENERAL_ENERGY_CONSUMPTION
     average_out_energy_in_connected_cells(
         cell, cell_dict, already_averaged_dict)
 
@@ -65,15 +68,14 @@ def move_cell_and_connected_cells(cell, cell_dict, moved_dict):
         return
 
     cell_group = group_connected_cells([cell], cell, cell_dict)
-    d_x = 0
-    d_y = 0
-    d_z = 0
+    # random movement for now, should be determined by dna and environment
+    d_x, d_y, d_z = random_vector_of_length(4)
 
     for g_cell in cell_group:
-        new_pos = curl.get(cell.pos.x, cell.pos.y, cell.pos.z)
-        d_x += new_pos[0] - cell.pos.x
-        d_y += new_pos[1] - cell.pos.y
-        d_z += new_pos[2] - cell.pos.z
+        delta_pos = curl.get(cell.pos.x, cell.pos.y, cell.pos.z)
+        d_x += delta_pos[0]
+        d_y += delta_pos[1]
+        d_z += delta_pos[2]
 
     for g_cell in cell_group:
         g_cell.pos.x += d_x / len(cell_group)
