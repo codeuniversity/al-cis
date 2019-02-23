@@ -65,9 +65,9 @@ def randomly_shifted_pos(pos, shift_dist):
     )
 
 def random_vector_of_length(l):
-    x = random.uniform(1 / 10 * 3, 1)
-    y = random.uniform(1 / 10 * 3, 1)
-    z = random.uniform(1 / 10 * 3, 1)
+    x = random.uniform(1 / 10 * 6, 2) - 1
+    y = random.uniform(1 / 10 * 6, 2) - 1
+    z = random.uniform(1 / 10 * 6, 2) - 1
 
     dist = math.sqrt(x * x + y * y + z * z)
     factor = l / dist
