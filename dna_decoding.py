@@ -65,7 +65,7 @@ def food_amount(dna):
     return int(feature_in_dna(dna, food_amount_feature) * config.FOOD_ENERGY)
 
 
-def should_sub_slice(dna, current_connection_count):
+def dna_should_sub_slice(dna, current_connection_count):
     feature_value = feature_value_with_connections(
         dna,
         should_sub_slice_feature,
@@ -88,7 +88,7 @@ def dna_sub_slice(dna, current_connection_count):
     max_start_index = len(dna) - 1
     start_index = round(start_feature_value * max_start_index)
     max_end_step = (len(dna) - 1) - start_index
-    end_index = start_index + round(max_end_step * end_feature_value)
+    end_index = start_index + round(max_end_step * end_feature_value) + 1
     return dna[start_index:end_index]
 
 

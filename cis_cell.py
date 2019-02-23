@@ -16,6 +16,13 @@ def is_alive(cell):
     else:
         return True
 
+def builds_connection_after_division(cell):
+    return dna_decoding.builds_connection_after_division(cell.dna, len(cell.connections))
+
+def dna_copy_or_sub_slice(cell):
+    if dna_decoding.dna_should_sub_slice(cell.dna, len(cell.connections)):
+        return dna_decoding.dna_sub_slice(cell.dna, len(cell.connections))
+    return cell.dna
 
 def divide(cell):
     initial_energy = int(dna_decoding.initial_energy(cell.dna))
@@ -26,22 +33,13 @@ def divide(cell):
         child_id = str(uuid.uuid1())
         child_connections = []
 
-        if dna_decoding.builds_connection_after_division(
-            cell.dna,
-            len(cell.connections),
-        ):
+        if builds_connection_after_division(cell):
             child_connections.append(proto.Connection(connected_to=cell.id))
             conn = cell.connections.add()
             conn.connected_to=child_id
-            print("++conn++")
-        child_dna = None
-        if dna_decoding.should_sub_slice(cell.dna, len(cell.connections)):
-            dna_decoding.dna_sub_slice(cell.dna, len(cell.connections))
-        else:
-            child_dna = cell.dna
 
         child_dna = dna_decoding.mutate_dna_with_chance(
-            cell.dna,
+            dna_copy_or_sub_slice(cell),
             conf.MUTATION_CHANCE
         )
 
