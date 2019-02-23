@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='proto',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x0eprotocol.proto\x12\x05proto\")\n\x06Vector\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\x12\t\n\x01z\x18\x03 \x01(\x02\"\"\n\nConnection\x12\x14\n\x0c\x63onnected_to\x18\x01 \x01(\x04\"\x95\x01\n\x04\x43\x65ll\x12\n\n\x02id\x18\x01 \x01(\x04\x12\x14\n\x0c\x65nergy_level\x18\x02 \x01(\x04\x12\x1a\n\x03pos\x18\x03 \x01(\x0b\x32\r.proto.Vector\x12\x1a\n\x03vel\x18\x04 \x01(\x0b\x32\r.proto.Vector\x12\x0b\n\x03\x64na\x18\x05 \x01(\x0c\x12&\n\x0b\x63onnections\x18\x06 \x03(\x0b\x32\x11.proto.Connection\"u\n\x10\x43\x65llComputeBatch\x12\x11\n\ttime_step\x18\x01 \x01(\x04\x12%\n\x10\x63\x65lls_to_compute\x18\x02 \x03(\x0b\x32\x0b.proto.Cell\x12\'\n\x12\x63\x65lls_in_proximity\x18\x03 \x03(\x0b\x32\x0b.proto.Cell\"\x10\n\x0e\x42igBangRequest\"5\n\x11SlaveRegistration\x12\x0f\n\x07\x61\x64\x64ress\x18\x01 \x01(\t\x12\x0f\n\x07threads\x18\x02 \x01(\r\"\x1b\n\x19SlaveRegistrationResponse2\x96\x01\n\x16\x43\x65llInteractionService\x12K\n\x17\x43omputeCellInteractions\x12\x17.proto.CellComputeBatch\x1a\x17.proto.CellComputeBatch\x12/\n\x07\x42igBang\x12\x15.proto.BigBangRequest\x1a\x0b.proto.Cell0\x01\x32\x62\n\x18SlaveRegistrationService\x12\x46\n\x08Register\x12\x18.proto.SlaveRegistration\x1a .proto.SlaveRegistrationResponseb\x06proto3')
+  serialized_pb=_b('\n\x0eprotocol.proto\x12\x05proto\")\n\x06Vector\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\x12\t\n\x01z\x18\x03 \x01(\x02\"\"\n\nConnection\x12\x14\n\x0c\x63onnected_to\x18\x01 \x01(\x04\"\x95\x01\n\x04\x43\x65ll\x12\n\n\x02id\x18\x01 \x01(\t\x12\x14\n\x0c\x65nergy_level\x18\x02 \x01(\x04\x12\x1a\n\x03pos\x18\x03 \x01(\x0b\x32\r.proto.Vector\x12\x1a\n\x03vel\x18\x04 \x01(\x0b\x32\r.proto.Vector\x12\x0b\n\x03\x64na\x18\x05 \x01(\x0c\x12&\n\x0b\x63onnections\x18\x06 \x03(\x0b\x32\x11.proto.Connection\"u\n\x10\x43\x65llComputeBatch\x12\x11\n\ttime_step\x18\x01 \x01(\x04\x12%\n\x10\x63\x65lls_to_compute\x18\x02 \x03(\x0b\x32\x0b.proto.Cell\x12\'\n\x12\x63\x65lls_in_proximity\x18\x03 \x03(\x0b\x32\x0b.proto.Cell\"\x10\n\x0e\x42igBangRequest\"5\n\x11SlaveRegistration\x12\x0f\n\x07\x61\x64\x64ress\x18\x01 \x01(\t\x12\x0f\n\x07threads\x18\x02 \x01(\r\"\x1b\n\x19SlaveRegistrationResponse2\x96\x01\n\x16\x43\x65llInteractionService\x12K\n\x17\x43omputeCellInteractions\x12\x17.proto.CellComputeBatch\x1a\x17.proto.CellComputeBatch\x12/\n\x07\x42igBang\x12\x15.proto.BigBangRequest\x1a\x0b.proto.Cell0\x01\x32\x62\n\x18SlaveRegistrationService\x12\x46\n\x08Register\x12\x18.proto.SlaveRegistration\x1a .proto.SlaveRegistrationResponseb\x06proto3')
 )
 
 
@@ -110,8 +110,8 @@ _CELL = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='id', full_name='proto.Cell.id', index=0,
-      number=1, type=4, cpp_type=4, label=1,
-      has_default_value=False, default_value=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
