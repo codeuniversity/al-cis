@@ -9,6 +9,7 @@ import dna_decoding
 import os
 import math
 import uuid
+import food
 
 import cis_env
 import cis_cell
@@ -35,20 +36,10 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
         # Interaction
 
         # Energy
-        for c in incoming_batch.cells_to_compute:
-            cis_env.feed_cell(
-                c,
-                id_to_cell,
-                id_to_cell_energy_averaged,
-                food_factor=conf.WANTED_CELL_AMOUNT_PER_BUCKET /
-                len(
-                    incoming_batch.cells_to_compute))
-
-        # Survival
-        living_cells = []
-        for c in incoming_batch.cells_to_compute:
-            if cis_cell.is_alive(c):
-                living_cells.append(c)
+        living_cells = food.feed_all_cells(
+            incoming_batch.cells_to_compute,
+            incoming_batch.time_step
+        )
 
         # Division
         for c in living_cells:
