@@ -24,7 +24,21 @@ def feed(cell, time):
         Give the cell food,
         depending on position and time.
     """
-    if random.random() < conf.FOOD_THRESHOLD:
+    def f1(x): return np.sin(x)
+
+    def f2(y): return np.sin(y)
+
+    def f3(z): return np.sin(z)
+
+    def f(x, y, z): return f1(x) + f2(y) + f3(z)
+
+    food_value = f(cell.pos.x, cell.pos.y, cell.pos.z)  # {-3, 3}
+
+    # normalize food_value to {0, 1}
+    food_value = normalize(food_value)
+
+    # probability that cell get food
+    if food_value < conf.FOOD_THRESHOLD:
         cell.energy_level += conf.FOOD_ENERGY
 
     return cell
@@ -52,3 +66,8 @@ def alive(cell):
         return True
 
     return False
+
+
+def normalize(num, definition_area_size=6):
+    ret = round(num) / definition_area_size + 0.5
+    return ret
