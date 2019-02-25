@@ -3,27 +3,27 @@ import os
 import cis_config as config
 import random
 
-initial_energy_feature = BitArray(bytes=bytearray(b'\xff'))
-division_treshold_feature = BitArray(bytes=bytearray(b'\xa0'))
-food_treshold_feature = BitArray(bytes=bytearray(b'\x21'))
-food_amount_feature = BitArray(bytes=bytearray(b'\x40'))
-builds_connection_after_division_feature = BitArray(bytes=bytearray(b'\x60'))
-should_sub_slice_feature = BitArray(bytes=bytearray(b'\x10'))
-sub_slice_start_feature = BitArray(bytes=bytearray(b'\x10'))
-sub_slice_start_feature = BitArray(bytes=bytearray(b'\x30'))
-sub_slice_end_feature = BitArray(bytes=bytearray(b'\x50'))
+initial_energy_feature = BitArray(bytes=bytearray(b'\xff')).int
+division_treshold_feature = BitArray(bytes=bytearray(b'\xa0')).int
+food_treshold_feature = BitArray(bytes=bytearray(b'\x21')).int
+food_amount_feature = BitArray(bytes=bytearray(b'\x40')).int
+builds_connection_after_division_feature = \
+    BitArray(bytes=bytearray(b'\x60')).int
+should_sub_slice_feature = BitArray(bytes=bytearray(b'\x10')).int
+sub_slice_start_feature = BitArray(bytes=bytearray(b'\x10')).int
+sub_slice_start_feature = BitArray(bytes=bytearray(b'\x30')).int
+sub_slice_end_feature = BitArray(bytes=bytearray(b'\x50')).int
 
 
 def feature_in_dna(dna, feature, shift_by=0, start_at=0):
     feature_hit_count = 0
-    feature_copy = feature.copy()
+    feature_copy = feature
     start_index = start_at % len(dna)
     for b in dna[start_index:]:
-        bits = BitArray(bytes=[b])
-        overlap = bits & feature
-        feature_hit_count += overlap.bin.count('1')
+        overlap = b & feature
+        feature_hit_count += bin(overlap).count('1')
         feature_copy = shift_bits_by(feature_copy, shift_by)
-    max_hits = len(dna) * feature.bin.count('1')
+    max_hits = len(dna) * bin(feature).count('1')
     return feature_hit_count / max_hits
 
 
@@ -93,22 +93,25 @@ def dna_sub_slice(dna, current_connection_count):
 
 
 def shift_bits_by(bits, n):
-    rest = n % 8
-    if rest == 0:
+    offset = n % 8
+    if offset == 0:
         return bits
 
-    bit_string = bits.bin
-    shifted_bits = bit_string[rest:] + bit_string[:rest]
-    return BitArray(bin=shifted_bits)
+    limit_8bit = 255
+    res = bits << offset
+    invert = bits >> (8-offset)
+    res = res | invert
+    res = res & limit_8bit
+    return res
 
 
 def mutate_dna_with_chance(dna, chance):
     new_dna_bit_string = ''
     for b in dna:
-        bit_string = BitArray(bytes=[b]).bin
+        bit_array = BitArray(bytes=[b])
         if random_bool_with_threshold(chance):
-            bit_string = mutate_bit_string(bit_string)
-        new_dna_bit_string += bit_string
+            mutate_bit_array(bit_array)
+        new_dna_bit_string += bit_array.bin
     if random_bool_with_threshold(chance):
         new_dna_bit_string += '0' * 8
     return BitArray(bin=new_dna_bit_string).bytes
@@ -118,11 +121,6 @@ def random_bool_with_threshold(threshold):
     return random.uniform(0, 1) < threshold
 
 
-def mutate_bit_string(bit_string):
-    random_index = random.randint(0, len(bit_string) - 1)
-    new_bit = ''
-    if bit_string[random_index] == '0':
-        new_bit = '1'
-    else:
-        new_bit = '0'
-    return bit_string[:random_index] + new_bit + bit_string[random_index + 1:]
+def mutate_bit_array(bit_array):
+    random_index = random.randint(0, len(bit_array) - 1)
+    bit_array[random_index] = not bit_array[random_index]
