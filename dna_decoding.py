@@ -20,7 +20,7 @@ def feature_in_dna(dna, feature, shift_by=0, start_at=0):
     feature_copy = feature
     start_index = start_at % len(dna)
     for b in dna[start_index:]:
-        overlap = b & feature
+        overlap = b & feature_copy
         feature_hit_count += bin(overlap).count('1')
         feature_copy = shift_bits_by(feature_copy, shift_by)
     max_hits = len(dna) * bin(feature).count('1')
