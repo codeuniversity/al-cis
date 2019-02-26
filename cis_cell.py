@@ -5,6 +5,7 @@ import uuid
 import random
 import math
 import dna_decoding
+import numpy as np
 
 
 def move(cell):
@@ -72,10 +73,7 @@ def randomly_shifted_pos(pos, shift_dist):
 
 
 def random_vector_of_length(l):
-    x = random.uniform(1 / 10 * 6, 2) - 1
-    y = random.uniform(1 / 10 * 6, 2) - 1
-    z = random.uniform(1 / 10 * 6, 2) - 1
-
-    dist = math.sqrt(x * x + y * y + z * z)
+    vec = np.random.uniform(0.6, 2, [3]) - 1
+    dist = np.sqrt(vec.dot(vec))
     factor = l / dist
-    return x * factor, y * factor, z * factor
+    return vec

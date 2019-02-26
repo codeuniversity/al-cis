@@ -5,42 +5,13 @@ import dna_decoding
 from cis_cell import random_vector_of_length
 
 
-class Curl():
-    def __init__(self, coor_origin, vec_len):
-        self.coor_origin = coor_origin
-        self.vec_len = vec_len
-
-    def _P(self, x, y, z):
-        nx = 0
-        return nx
-
-    def _Q(self, x, y, z):
-        ny = -z + self.coor_origin[1]
-        return ny
-
-    def _R(self, x, y, z):
-        nz = y - self.coor_origin[2]
-        return nz
-
-    def get(self, x, y, z):
-        old_pos = np.array([x, y, z])
-        curl_pos = np.array([
-            self._P(x, y, z),
-            self._Q(x, y, z),
-            self._R(x, y, z),
-        ])
-
-        return curl_pos * self.vec_len
-
-
-curl = Curl(
-    np.array([
-        conf.WORLD_DIMENSION[0] / 2,
-        conf.WORLD_DIMENSION[1] / 2,
-        conf.WORLD_DIMENSION[2] / 2
-    ]),
-    0.002
-)
+def curl(pos, vec_len=0.004, coor_origin=conf.CURL_CENTRE):
+    curl_pos = np.array([
+        0,
+        -pos.z + coor_origin[1],
+        pos.y - coor_origin[2],
+    ])
+    return curl_pos * vec_len
 
 
 def feed_cell(cell, cell_dict, already_averaged_dict, food_factor=1):
@@ -67,7 +38,6 @@ def get_value(dict, key):
 
 def move_cell_and_connected_cells(cell, cell_dict, moved_dict):
     global curl
-
     _value, moved = get_value(moved_dict, cell.id)
     if moved:
         return
@@ -75,17 +45,16 @@ def move_cell_and_connected_cells(cell, cell_dict, moved_dict):
     cell_group = group_connected_cells([cell], cell, cell_dict)
     # random movement for now, should be determined by dna and environment
     d_x, d_y, d_z = random_vector_of_length(4)
+    mov_vec = random_vector_of_length(4)
 
     for g_cell in cell_group:
-        delta_pos = curl.get(cell.pos.x, cell.pos.y, cell.pos.z)
-        d_x += delta_pos[0]
-        d_y += delta_pos[1]
-        d_z += delta_pos[2]
+        mov_vec += curl(g_cell.pos)
 
     for g_cell in cell_group:
-        g_cell.pos.x += d_x / len(cell_group)
-        g_cell.pos.y += d_y / len(cell_group)
-        g_cell.pos.z += d_z / len(cell_group)
+        g_cell_mov = mov_vec / len(cell_group)
+        g_cell.pos.x += g_cell_mov[0]
+        g_cell.pos.y += g_cell_mov[1]
+        g_cell.pos.z += g_cell_mov[2]
         moved_dict[g_cell.id] = True
 
 
