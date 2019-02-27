@@ -99,7 +99,7 @@ def shift_bits_by(bits, n):
 
     limit_8bit = 255
     res = bits << offset
-    invert = bits >> (8-offset)
+    invert = bits >> (8 - offset)
     res = res | invert
     res = res & limit_8bit
     return res
