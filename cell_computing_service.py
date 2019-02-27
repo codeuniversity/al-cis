@@ -5,7 +5,13 @@ import protocol_pb2_grpc as grpc_proto
 import cis_config as conf
 import random
 import time
+import dna_decoding
+import os
+import math
 import uuid
+
+import cis_env
+import cis_cell
 
 
 class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
@@ -14,49 +20,47 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
 
     def ComputeCellInteractions(self, incoming_batch, context):
         new_cells = []
+        id_to_cell = {}
+        id_to_cell_moved = {}
+        id_to_cell_energy_averaged = {}
+        for c in incoming_batch.cells_to_compute:
+            id_to_cell[c.id] = c
+        for c in incoming_batch.cells_in_proximity:
+            id_to_cell[c.id] = c
+
         # Movement
         for c in incoming_batch.cells_to_compute:
-            c.pos.x += random.uniform(-conf.WORLD_VELOCITY,
-                                      conf.WORLD_VELOCITY)
-            c.pos.y += random.uniform(-conf.WORLD_VELOCITY,
-                                      conf.WORLD_VELOCITY)
-            c.pos.z += random.uniform(-conf.WORLD_VELOCITY,
-                                      conf.WORLD_VELOCITY)
+            cis_env.move_cell_and_connected_cells(
+                c, id_to_cell, id_to_cell_moved)
         # Interaction
 
         # Energy
         for c in incoming_batch.cells_to_compute:
-            f = random.uniform(0, 1)
-            if f < conf.FOOD_THRESHOLD:
-                c.energy_level += conf.FOOD_ENERGY
+            cis_env.feed_cell(
+                c,
+                id_to_cell,
+                id_to_cell_energy_averaged,
+                food_factor=conf.WANTED_CELL_AMOUNT_PER_BUCKET /
+                len(
+                    incoming_batch.cells_to_compute))
 
-            c.energy_level -= conf.GENERAL_ENERGY_CONSUMPTION
-            if c.energy_level > conf.ENERGY_THRESHOLD:
-                new_cells.append(c)
+        # Survival
+        living_cells = []
+        for c in incoming_batch.cells_to_compute:
+            if cis_cell.is_alive(c):
+                living_cells.append(c)
 
         # Division
-        for c in incoming_batch.cells_to_compute:
-            if c.energy_level > conf.DIVISION_THRESHOLD:
-                c.energy_level -= conf.DIVISION_ENERGY_COST
-
-                nc = proto.Cell(
-                    id=str(uuid.uuid1()),
-                    energy_level=conf.INITIAL_ENERGY_LEVEL,
-                    pos=c.pos,
-                    vel=proto.Vector(
-                        x=0,
-                        y=0,
-                        z=0),
-                    dna=bytes(),
-                    connections=[])
-                new_cells.append(nc)
+        for c in living_cells:
+            new_cell = cis_cell.divide(c)
+            if new_cell is not None:
+                living_cells.append(new_cell)
 
         new_batch = proto.CellComputeBatch(
             time_step=incoming_batch.time_step,
-            cells_to_compute=new_cells,
+            cells_to_compute=living_cells,
             cells_in_proximity=incoming_batch.cells_in_proximity,
         )
-        # time.sleep(0.1)
         return new_batch
 
     def BigBang(self, request, context):
@@ -76,6 +80,6 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
                     x=0,
                     y=0,
                     z=0),
-                dna=bytes(),
+                dna=bytes(os.urandom(random.randint(3, 6))),
                 connections=[])
             yield cell
