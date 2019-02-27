@@ -12,10 +12,10 @@ image:
 	docker build -t codealife/al-cis .
 
 check-format:
-	env/bin/pycodestyle $$(ls | grep '.*.py' | grep -v '.*pb2.*' | grep -v '__pycache__')
+	env/bin/pycodestyle $$(ls | grep '.*\.py' | grep -v '.*pb2.*')
 
 autoformat:
-	env/bin/autopep8 -ia $$(ls | grep '.*.py' | grep -v '.*pb2.*' | grep -v '__pycache__')
+	env/bin/autopep8 -ia $$(ls | grep '.*\.py' | grep -v '.*pb2.*')
 
 docker-push:
 	echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
