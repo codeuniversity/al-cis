@@ -1,6 +1,8 @@
 import cis_config as conf
 import numpy as np
 import random
+import scipy.constants as cons
+import time
 
 
 def feed_all_cells(cells, time):
@@ -8,6 +10,7 @@ def feed_all_cells(cells, time):
         Calc the amount of food a cell gets and add it to cell,
         given the position of the cell and the time.
     """
+
     new_cells = []
 
     for cell in cells:
@@ -24,20 +27,20 @@ def feed(cell, time):
         Give the cell food,
         depending on position and time.
     """
-    def f1(x): return np.sin(x)
+    f1 = get_wave_function()
 
-    def f2(y): return np.sin(y)
+    f2 = get_wave_function()
 
-    def f3(z): return np.sin(z)
+    f3 = get_wave_function()
 
-    def f(x, y, z): return f1(x) + f2(y) + f3(z)
+    def f(x, y, z, t): return f1(x, t) + f2(y, t) + f3(z, t)
 
-    food_value = f(cell.pos.x, cell.pos.y, cell.pos.z)  # {-3, 3}
+    food_value = f(cell.pos.x, cell.pos.y, cell.pos.z, time)  # {-3, 3}
 
     # normalize food_value to {0, 1}
     food_value = normalize(food_value)
 
-    # probability that cell get food
+    # check if cell gets the fixed amount of food
     if food_value < conf.FOOD_THRESHOLD:
         cell.energy_level += conf.FOOD_ENERGY
 
@@ -71,3 +74,27 @@ def alive(cell):
 def normalize(num, definition_area_size=6):
     ret = round(num) / definition_area_size + 0.5
     return ret
+
+
+def get_wave_function(
+        max_ampli=1,
+        oscillation_period=1,
+        init_deflec_factor=0):
+    """
+        Create and return a mechanical wave function.
+    """
+
+    def f(x, t):
+        """
+            Classical mechanical wave function.
+        """
+
+        time_relation = t / oscillation_period
+        space_relation = x / (cons.speed_of_light * oscillation_period)
+        init_deflec = init_deflec_factor * np.pi
+
+        return max_ampli * np.sin(2 * np.pi *
+                                  (time_relation - space_relation) +
+                                  init_deflec)
+
+    return f
