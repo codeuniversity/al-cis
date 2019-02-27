@@ -24,13 +24,14 @@ def feed_all_cells(cells, time):
     return new_cells
 
 
-def feed(cell, time, function):
+def feed(cell, time, food_function):
     """
         Give the cell food,
         depending on position and time.
     """
 
-    food_value = function(cell.pos.x, cell.pos.y, cell.pos.z, time)  # {-3, 3}
+    #  get value from the food_function --> definition area: {-3, 3}
+    food_value = food_function(cell.pos.x, cell.pos.y, cell.pos.z, time)
 
     # normalize food_value to {0, 1}
     food_value = normalize(food_value)
@@ -67,11 +68,17 @@ def alive(cell):
 
 
 def normalize(num, definition_area_size=6):
+    """
+        Normalizes the defenition area of the num to {0, 1} .
+    """
     ret = round(num) / definition_area_size + 0.5
     return ret
 
 
 def get_food_function():
+    """
+        Creates the 4-dim food function and returns it.
+    """
     f1 = get_wave_function()
 
     f2 = get_wave_function()
