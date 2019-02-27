@@ -13,8 +13,10 @@ def feed_all_cells(cells, time):
 
     new_cells = []
 
+    food_function = get_food_function()
+
     for cell in cells:
-        cell = feed(cell, time)
+        cell = feed(cell, time, food_function)
         cell = consume_energy(cell)
         if alive(cell):
             new_cells.append(cell)
@@ -22,20 +24,13 @@ def feed_all_cells(cells, time):
     return new_cells
 
 
-def feed(cell, time):
+def feed(cell, time, function):
     """
         Give the cell food,
         depending on position and time.
     """
-    f1 = get_wave_function()
 
-    f2 = get_wave_function()
-
-    f3 = get_wave_function()
-
-    def f(x, y, z, t): return f1(x, t) + f2(y, t) + f3(z, t)
-
-    food_value = f(cell.pos.x, cell.pos.y, cell.pos.z, time)  # {-3, 3}
+    food_value = function(cell.pos.x, cell.pos.y, cell.pos.z, time)  # {-3, 3}
 
     # normalize food_value to {0, 1}
     food_value = normalize(food_value)
@@ -74,6 +69,18 @@ def alive(cell):
 def normalize(num, definition_area_size=6):
     ret = round(num) / definition_area_size + 0.5
     return ret
+
+
+def get_food_function():
+    f1 = get_wave_function()
+
+    f2 = get_wave_function()
+
+    f3 = get_wave_function()
+
+    def f(x, y, z, t): return f1(x, t) + f2(y, t) + f3(z, t)
+
+    return f
 
 
 def get_wave_function(
