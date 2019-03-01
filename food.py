@@ -2,17 +2,16 @@ import cis_config as conf
 import numpy as np
 import random
 import scipy.constants as cons
-import time
 
 
-def feed(cell, time):
+def feed(cell, time_step):
     """
         Give the cell food,
-        depending on position and time.
+        depending on position and time_step.
     """
 
     #  get value from the food_function --> definition area: {-3, 3}
-    food_value = food_function(cell.pos, time)
+    food_value = food_function(cell.pos, time_step)
 
     # normalize food_value to {0, 1}
     food_value = normalize(food_value)
@@ -32,13 +31,13 @@ def normalize(num, definition_area_size=6):
     return ret
 
 
-def food_function(cell_pos, time):
+def food_function(cell_pos, time_step):
     """
         Creates the 4-dim food function and returns it.
     """
-    x = get_wave_function(cell_pos.x, time)
-    y = get_wave_function(cell_pos.y, time)
-    z = get_wave_function(cell_pos.z, time)
+    x = get_wave_function(cell_pos.x, time_step)
+    y = get_wave_function(cell_pos.y, time_step)
+    z = get_wave_function(cell_pos.z, time_step)
 
     return x + y + z
 
