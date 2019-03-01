@@ -37,11 +37,22 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
         for c in incoming_batch.cells_to_compute:
             cis_env.move_cell_and_connected_cells(
                 c, id_to_cell, id_to_cell_moved)
+
         # Interaction
 
         # Get Energy
         for c in incoming_batch.cells_to_compute:
-            c = food.feed(c, incoming_batch.time_step)
+            c = cis_env.feed(c, incoming_batch.time_step)
+
+        # Consume Energy
+        for c in incoming_batch.cells_to_compute:
+            c = cis_cell.consume_energy(c)
+        
+        # Survival
+        living_cells = []
+        for c in incoming_batch.cells_to_compute:
+            if cis_cell.is_alive(c):
+                living_cells.append(c)
 
         # Division
         for c in living_cells:
