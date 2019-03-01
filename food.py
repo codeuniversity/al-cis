@@ -43,19 +43,6 @@ def feed(cell, time, food_function):
     return cell
 
 
-def consume_energy(cell):
-    """
-       Calc if cell still lives after energy consumption.
-    """
-    # general energy consumption
-    cell.energy_level -= conf.GENERAL_ENERGY_CONSUMPTION
-
-    # other energ consumption (in future)
-    cell.energy_level -= 0
-
-    return cell
-
-
 def normalize(num, definition_area_size=6):
     """
         Normalizes the defenition area of the num to {0, 1} .
