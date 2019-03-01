@@ -20,6 +20,10 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
     """
 
     def ComputeCellInteractions(self, incoming_batch, context):
+        """
+            Computes the interaction of the whole batch of cells.
+        """
+
         new_cells = []
         id_to_cell = {}
         id_to_cell_moved = {}
@@ -53,6 +57,10 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
         return new_batch
 
     def BigBang(self, request, context):
+        """
+            Creates batch of cells.
+        """
+
         for i in range(conf.INITIAL_NUMBER_CELLS):
             initial_position = []
             for j in conf.WORLD_DIMENSION:
