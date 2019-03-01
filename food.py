@@ -5,26 +5,7 @@ import scipy.constants as cons
 import time
 
 
-def feed_all_cells(cells, time):
-    """
-        Calc the amount of food a cell gets and add it to cell,
-        given the position of the cell and the time.
-    """
-
-    new_cells = []
-
-    food_function = get_food_function()
-
-    for cell in cells:
-        cell = feed(cell, time, food_function)
-        cell = consume_energy(cell)
-        if alive(cell):
-            new_cells.append(cell)
-
-    return new_cells
-
-
-def feed(cell, time, food_function):
+def feed(cell, time):
     """
         Give the cell food,
         depending on position and time.

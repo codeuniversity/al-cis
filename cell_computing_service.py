@@ -35,11 +35,9 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
                 c, id_to_cell, id_to_cell_moved)
         # Interaction
 
-        # Energy
-        living_cells = food.feed_all_cells(
-            incoming_batch.cells_to_compute,
-            incoming_batch.time_step
-        )
+        # Get Energy
+        for c in incoming_batch.cells_to_compute:
+            c = food.feed(c, incoming_batch.time_step)
 
         # Division
         for c in living_cells:
