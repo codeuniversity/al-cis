@@ -56,17 +56,6 @@ def consume_energy(cell):
     return cell
 
 
-def alive(cell):
-    """
-        Checks if cell is still living,
-        depending on energy level.
-    """
-    if cell.energy_level > conf.ENERGY_THRESHOLD:
-        return True
-
-    return False
-
-
 def normalize(num, definition_area_size=6):
     """
         Normalizes the defenition area of the num to {0, 1} .
