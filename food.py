@@ -12,12 +12,12 @@ def feed(cell, time):
     """
 
     #  get value from the food_function --> definition area: {-3, 3}
-    food_value = food_function(cell.pos.x, cell.pos.y, cell.pos.z, time)
+    food_value = food_function(cell.pos, time)
 
     # normalize food_value to {0, 1}
     food_value = normalize(food_value)
 
-    # check if cell gets the fixed amount of food
+    # check if cell gets (the fixed amount of) food
     if food_value < conf.FOOD_THRESHOLD:
         cell.energy_level += conf.FOOD_ENERGY
 
@@ -32,40 +32,26 @@ def normalize(num, definition_area_size=6):
     return ret
 
 
-def get_food_function():
+def food_function(cell_pos, time):
     """
         Creates the 4-dim food function and returns it.
     """
-    f1 = get_wave_function()
+    x = get_wave_function(cell_pos.x, time)
+    y = get_wave_function(cell_pos.y, time)
+    z = get_wave_function(cell_pos.z, time)
 
-    f2 = get_wave_function()
-
-    f3 = get_wave_function()
-
-    def f(x, y, z, t): return f1(x, t) + f2(y, t) + f3(z, t)
-
-    return f
+    return x + y + z
 
 
-def get_wave_function(
-        max_ampli=1,
-        oscillation_period=1,
-        init_deflec_factor=0):
+def wave_function(x, t, max_ampli=1, oscillation_period=1, init_deflection=0):
     """
-        Create and return a mechanical wave function.
+        Classical mechanical wave function.
     """
 
-    def f(x, t):
-        """
-            Classical mechanical wave function.
-        """
+    time_relation = t / oscillation_period
+    space_relation = x / (cons.speed_of_light * oscillation_period)
 
-        time_relation = t / oscillation_period
-        space_relation = x / (cons.speed_of_light * oscillation_period)
-        init_deflec = init_deflec_factor * np.pi
+    # sinput = sin + input
+    sinput = 2 * np.pi * (time_relation - space_relation) + init_deflec
 
-        return max_ampli * np.sin(2 * np.pi *
-                                  (time_relation - space_relation) +
-                                  init_deflec)
-
-    return f
+    return max_ampli * np.sin(sinput)
