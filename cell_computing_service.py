@@ -9,7 +9,6 @@ import dna_decoding
 import os
 import math
 import uuid
-import food
 
 import cis_env
 import cis_cell
