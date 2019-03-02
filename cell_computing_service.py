@@ -46,7 +46,7 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
         # Consume Energy
         for c in incoming_batch.cells_to_compute:
             c = cis_cell.consume_energy(c)
-        
+
         # Survival
         living_cells = []
         for c in incoming_batch.cells_to_compute:
