@@ -25,7 +25,7 @@ def feed(cell, time_step):
     food_value = food_function(cell.pos, time_step)
 
     # normalize food_value to {0, 1}
-    food_value = normalize(food_value)
+    food_value = normalize_food_value(food_value)
 
     # check if cell gets (the fixed amount of) food
     if food_value < conf.FOOD_THRESHOLD:
@@ -34,11 +34,11 @@ def feed(cell, time_step):
     return cell
 
 
-def normalize(num, definition_area_size=6):
+def normalize_food_value(num, definition_area_size=6):
     """
-        Normalizes the defenition area of the num to {0, 1} .
+        Normalizes the definition area of the num to {0, 1} .
     """
-    ret = round(num) / definition_area_size + 0.5
+    ret = num / definition_area_size + 0.5
     return ret
 
 
