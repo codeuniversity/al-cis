@@ -40,8 +40,13 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
         # Interaction
 
         # Get Energy
+        food_fac = conf.WANTED_CELL_AMOUNT_PER_BUCKET / len(incoming_batch.cells_to_compute)
         for c in incoming_batch.cells_to_compute:
-            c = cis_env.feed(c, incoming_batch.time_step)
+            cis_env.feed(
+                c,
+                incoming_batch.time_step,
+                food_factor=food_fac
+            )
 
         # Consume Energy
         for c in incoming_batch.cells_to_compute:

@@ -15,7 +15,7 @@ def curl(pos, vec_len=0.004, coor_origin=conf.CURL_CENTRE):
     return curl_pos * vec_len
 
 
-def feed(cell, time_step):
+def feed(cell, time_step, food_factor=1):
     """
         Give the cell food,
         depending on position and time_step.
