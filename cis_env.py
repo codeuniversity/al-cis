@@ -3,7 +3,7 @@ import random
 import numpy as np
 import dna_decoding
 from cis_cell import random_vector_of_length
-import scipy.constants as cons
+from scipy.constants import speed_of_light
 
 
 def curl(pos, vec_len=0.004, coor_origin=conf.CURL_CENTRE):
@@ -59,7 +59,7 @@ def wave_function(x, t, max_ampli=1, oscillation_period=1, init_deflection=0):
     """
 
     time_relation = t / oscillation_period
-    space_relation = x / (cons.speed_of_light * oscillation_period)
+    space_relation = x / (speed_of_light * oscillation_period)
 
     # sinput = sin + input
     sinput = 2 * np.pi * (time_relation - space_relation) + init_deflection
