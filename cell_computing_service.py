@@ -58,6 +58,14 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
             if cis_cell.is_alive(c):
                 living_cells.append(c)
 
+        # Average out energy in connected cells
+        for c in living_cells:
+            cis_env.average_out_energy_in_connected_cells(
+                c,
+                id_to_cell,
+                id_to_cell_energy_averaged
+            )
+
         # Division
         for c in living_cells:
             new_cell = cis_cell.divide(c)
