@@ -28,8 +28,8 @@ def feed(cell, time_step):
     food_value = normalize_food_value(food_value)
 
     # check if cell gets (the fixed amount of) food
-    if food_value < conf.FOOD_THRESHOLD:
-        cell.energy_level += conf.FOOD_ENERGY
+    if food_value < dna_decoding.food_theshold(cell.dna):
+        cell.energy_level += int(dna_decoding.food_amount(cell.dna) * food_factor)
 
     return cell
 
