@@ -9,6 +9,7 @@ import dna_decoding
 import os
 import math
 import uuid
+import metrics
 
 import cis_env
 import cis_cell
@@ -17,7 +18,9 @@ import cis_cell
 class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
     """
     """
+    COMPUTE_CELL_INTERACTION_HISTOGRAM = metrics.request_latency_histogram.labels("compute_cell_interactions")
 
+    @COMPUTE_CELL_INTERACTION_HISTOGRAM.time()
     def ComputeCellInteractions(self, incoming_batch, context):
         new_cells = []
         id_to_cell = {}
@@ -64,6 +67,7 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
         return new_batch
 
     def BigBang(self, request, context):
+        metrics.request_counter.labels("big_bang").inc()
         for i in range(conf.INITIAL_NUMBER_CELLS):
             initial_position = []
             for j in conf.WORLD_DIMENSION:
