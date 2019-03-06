@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='proto',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x0eprotocol.proto\x12\x05proto\")\n\x06Vector\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\x12\t\n\x01z\x18\x03 \x01(\x02\"\"\n\nConnection\x12\x14\n\x0c\x63onnected_to\x18\x01 \x01(\t\"\x95\x01\n\x04\x43\x65ll\x12\n\n\x02id\x18\x01 \x01(\t\x12\x14\n\x0c\x65nergy_level\x18\x02 \x01(\x04\x12\x1a\n\x03pos\x18\x03 \x01(\x0b\x32\r.proto.Vector\x12\x1a\n\x03vel\x18\x04 \x01(\x0b\x32\r.proto.Vector\x12\x0b\n\x03\x64na\x18\x05 \x01(\x0c\x12&\n\x0b\x63onnections\x18\x06 \x03(\x0b\x32\x11.proto.Connection\"u\n\x10\x43\x65llComputeBatch\x12\x11\n\ttime_step\x18\x01 \x01(\x04\x12%\n\x10\x63\x65lls_to_compute\x18\x02 \x03(\x0b\x32\x0b.proto.Cell\x12\'\n\x12\x63\x65lls_in_proximity\x18\x03 \x03(\x0b\x32\x0b.proto.Cell\"\x10\n\x0e\x42igBangRequest\"5\n\x11SlaveRegistration\x12\x0f\n\x07\x61\x64\x64ress\x18\x01 \x01(\t\x12\x0f\n\x07threads\x18\x02 \x01(\r\"\x1b\n\x19SlaveRegistrationResponse2\x96\x01\n\x16\x43\x65llInteractionService\x12K\n\x17\x43omputeCellInteractions\x12\x17.proto.CellComputeBatch\x1a\x17.proto.CellComputeBatch\x12/\n\x07\x42igBang\x12\x15.proto.BigBangRequest\x1a\x0b.proto.Cell0\x01\x32\x62\n\x18SlaveRegistrationService\x12\x46\n\x08Register\x12\x18.proto.SlaveRegistration\x1a .proto.SlaveRegistrationResponseb\x06proto3')
+  serialized_pb=_b('\n\x0eprotocol.proto\x12\x05proto\")\n\x06Vector\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\x12\t\n\x01z\x18\x03 \x01(\x02\"\"\n\nConnection\x12\x14\n\x0c\x63onnected_to\x18\x01 \x01(\t\"\x95\x01\n\x04\x43\x65ll\x12\n\n\x02id\x18\x01 \x01(\t\x12\x14\n\x0c\x65nergy_level\x18\x02 \x01(\x04\x12\x1a\n\x03pos\x18\x03 \x01(\x0b\x32\r.proto.Vector\x12\x1a\n\x03vel\x18\x04 \x01(\x0b\x32\r.proto.Vector\x12\x0b\n\x03\x64na\x18\x05 \x01(\x0c\x12&\n\x0b\x63onnections\x18\x06 \x03(\x0b\x32\x11.proto.Connection\"u\n\x10\x43\x65llComputeBatch\x12\x11\n\ttime_step\x18\x01 \x01(\x04\x12%\n\x10\x63\x65lls_to_compute\x18\x02 \x03(\x0b\x32\x0b.proto.Cell\x12\'\n\x12\x63\x65lls_in_proximity\x18\x03 \x03(\x0b\x32\x0b.proto.Cell\"J\n\x0eSpawnDimension\x12\x1c\n\x05start\x18\x01 \x01(\x0b\x32\r.proto.Vector\x12\x1a\n\x03\x65nd\x18\x02 \x01(\x0b\x32\r.proto.Vector\"*\n\x0e\x44naLengthRange\x12\x0b\n\x03min\x18\x01 \x01(\x04\x12\x0b\n\x03max\x18\x02 \x01(\x04\"\x9c\x01\n\x0e\x42igBangRequest\x12.\n\x0fspawn_dimension\x18\x01 \x01(\x0b\x32\x15.proto.SpawnDimension\x12\x14\n\x0c\x65nergy_level\x18\x02 \x01(\x04\x12\x13\n\x0b\x63\x65ll_amount\x18\x03 \x01(\x04\x12/\n\x10\x64na_length_range\x18\x04 \x01(\x0b\x32\x15.proto.DnaLengthRange\"5\n\x11SlaveRegistration\x12\x0f\n\x07\x61\x64\x64ress\x18\x01 \x01(\t\x12\x0f\n\x07threads\x18\x02 \x01(\r\"\x1b\n\x19SlaveRegistrationResponse2\x96\x01\n\x16\x43\x65llInteractionService\x12K\n\x17\x43omputeCellInteractions\x12\x17.proto.CellComputeBatch\x1a\x17.proto.CellComputeBatch\x12/\n\x07\x42igBang\x12\x15.proto.BigBangRequest\x1a\x0b.proto.Cell0\x01\x32\x62\n\x18SlaveRegistrationService\x12\x46\n\x08Register\x12\x18.proto.SlaveRegistration\x1a .proto.SlaveRegistrationResponseb\x06proto3')
 )
 
 
@@ -212,13 +212,27 @@ _CELLCOMPUTEBATCH = _descriptor.Descriptor(
 )
 
 
-_BIGBANGREQUEST = _descriptor.Descriptor(
-  name='BigBangRequest',
-  full_name='proto.BigBangRequest',
+_SPAWNDIMENSION = _descriptor.Descriptor(
+  name='SpawnDimension',
+  full_name='proto.SpawnDimension',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
+    _descriptor.FieldDescriptor(
+      name='start', full_name='proto.SpawnDimension.start', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='end', full_name='proto.SpawnDimension.end', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -232,7 +246,97 @@ _BIGBANGREQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=375,
-  serialized_end=391,
+  serialized_end=449,
+)
+
+
+_DNALENGTHRANGE = _descriptor.Descriptor(
+  name='DnaLengthRange',
+  full_name='proto.DnaLengthRange',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='min', full_name='proto.DnaLengthRange.min', index=0,
+      number=1, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='max', full_name='proto.DnaLengthRange.max', index=1,
+      number=2, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=451,
+  serialized_end=493,
+)
+
+
+_BIGBANGREQUEST = _descriptor.Descriptor(
+  name='BigBangRequest',
+  full_name='proto.BigBangRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='spawn_dimension', full_name='proto.BigBangRequest.spawn_dimension', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='energy_level', full_name='proto.BigBangRequest.energy_level', index=1,
+      number=2, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='cell_amount', full_name='proto.BigBangRequest.cell_amount', index=2,
+      number=3, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='dna_length_range', full_name='proto.BigBangRequest.dna_length_range', index=3,
+      number=4, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=496,
+  serialized_end=652,
 )
 
 
@@ -269,8 +373,8 @@ _SLAVEREGISTRATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=393,
-  serialized_end=446,
+  serialized_start=654,
+  serialized_end=707,
 )
 
 
@@ -293,8 +397,8 @@ _SLAVEREGISTRATIONRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=448,
-  serialized_end=475,
+  serialized_start=709,
+  serialized_end=736,
 )
 
 _CELL.fields_by_name['pos'].message_type = _VECTOR
@@ -302,10 +406,16 @@ _CELL.fields_by_name['vel'].message_type = _VECTOR
 _CELL.fields_by_name['connections'].message_type = _CONNECTION
 _CELLCOMPUTEBATCH.fields_by_name['cells_to_compute'].message_type = _CELL
 _CELLCOMPUTEBATCH.fields_by_name['cells_in_proximity'].message_type = _CELL
+_SPAWNDIMENSION.fields_by_name['start'].message_type = _VECTOR
+_SPAWNDIMENSION.fields_by_name['end'].message_type = _VECTOR
+_BIGBANGREQUEST.fields_by_name['spawn_dimension'].message_type = _SPAWNDIMENSION
+_BIGBANGREQUEST.fields_by_name['dna_length_range'].message_type = _DNALENGTHRANGE
 DESCRIPTOR.message_types_by_name['Vector'] = _VECTOR
 DESCRIPTOR.message_types_by_name['Connection'] = _CONNECTION
 DESCRIPTOR.message_types_by_name['Cell'] = _CELL
 DESCRIPTOR.message_types_by_name['CellComputeBatch'] = _CELLCOMPUTEBATCH
+DESCRIPTOR.message_types_by_name['SpawnDimension'] = _SPAWNDIMENSION
+DESCRIPTOR.message_types_by_name['DnaLengthRange'] = _DNALENGTHRANGE
 DESCRIPTOR.message_types_by_name['BigBangRequest'] = _BIGBANGREQUEST
 DESCRIPTOR.message_types_by_name['SlaveRegistration'] = _SLAVEREGISTRATION
 DESCRIPTOR.message_types_by_name['SlaveRegistrationResponse'] = _SLAVEREGISTRATIONRESPONSE
@@ -339,6 +449,20 @@ CellComputeBatch = _reflection.GeneratedProtocolMessageType('CellComputeBatch', 
   ))
 _sym_db.RegisterMessage(CellComputeBatch)
 
+SpawnDimension = _reflection.GeneratedProtocolMessageType('SpawnDimension', (_message.Message,), dict(
+  DESCRIPTOR = _SPAWNDIMENSION,
+  __module__ = 'protocol_pb2'
+  # @@protoc_insertion_point(class_scope:proto.SpawnDimension)
+  ))
+_sym_db.RegisterMessage(SpawnDimension)
+
+DnaLengthRange = _reflection.GeneratedProtocolMessageType('DnaLengthRange', (_message.Message,), dict(
+  DESCRIPTOR = _DNALENGTHRANGE,
+  __module__ = 'protocol_pb2'
+  # @@protoc_insertion_point(class_scope:proto.DnaLengthRange)
+  ))
+_sym_db.RegisterMessage(DnaLengthRange)
+
 BigBangRequest = _reflection.GeneratedProtocolMessageType('BigBangRequest', (_message.Message,), dict(
   DESCRIPTOR = _BIGBANGREQUEST,
   __module__ = 'protocol_pb2'
@@ -368,8 +492,8 @@ _CELLINTERACTIONSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=478,
-  serialized_end=628,
+  serialized_start=739,
+  serialized_end=889,
   methods=[
   _descriptor.MethodDescriptor(
     name='ComputeCellInteractions',
@@ -401,8 +525,8 @@ _SLAVEREGISTRATIONSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=1,
   serialized_options=None,
-  serialized_start=630,
-  serialized_end=728,
+  serialized_start=891,
+  serialized_end=989,
   methods=[
   _descriptor.MethodDescriptor(
     name='Register',

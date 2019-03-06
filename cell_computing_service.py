@@ -63,23 +63,25 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
         )
         return new_batch
 
-    def BigBang(self, request, context):
-        for i in range(conf.INITIAL_NUMBER_CELLS):
-            initial_position = []
-            for j in conf.WORLD_DIMENSION:
-                initial_position.append(random.uniform(0, j))
+    def BigBang(self, big_bang_request, context):
+        for i in range(big_bang_request.cell_amount):
             initial_position = proto.Vector(
-                x=initial_position[0],
-                y=initial_position[1],
-                z=initial_position[2])
+                x=random.uniform(big_bang_request.start.x, big_bang_request.end.x),
+                y=random.uniform(big_bang_request.start.y, big_bang_request.end.y),
+                z=random.uniform(big_bang_request.start.z, big_bang_request.end.z)
+            )
+
             cell = proto.Cell(
                 id=str(uuid.uuid1()),
-                energy_level=conf.INITIAL_ENERGY_LEVEL,
+                energy_level=big_bang_request.energy_level,
                 pos=initial_position,
                 vel=proto.Vector(
                     x=0,
                     y=0,
                     z=0),
-                dna=bytes(os.urandom(random.randint(3, 6))),
+                dna=cis_cell.random_dna(
+                    min_length=big_bang_request.dna_length_range.min,
+                    max_length=big_bang_request.dna_length_range.max,
+                )
                 connections=[])
             yield cell
