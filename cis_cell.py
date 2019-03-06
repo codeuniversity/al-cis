@@ -20,6 +20,17 @@ def is_alive(cell):
         return True
 
 
+def consume_energy(cell):
+    """
+       Substracts the energy the cells consumes.
+    """
+    # general energy consumption
+    if conf.GENERAL_ENERGY_CONSUMPTION < cell.energy_level:
+        cell.energy_level -= conf.GENERAL_ENERGY_CONSUMPTION
+    else:
+        cell.energy_level = 0
+
+
 def builds_connection_after_division(cell):
     return dna_decoding.builds_connection_after_division(
         cell.dna, len(cell.connections))
