@@ -12,7 +12,7 @@ install:
   - make dep
 
 script:
-  - make check-format
+  - make checkformat
 
 deploy:
   provider: script
