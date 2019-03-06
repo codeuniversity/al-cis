@@ -22,6 +22,7 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
         new_cells = []
         id_to_cell = {}
         id_to_cell_moved = {}
+        id_combination_to_distance_checked = {}
         id_to_cell_energy_averaged = {}
         for c in incoming_batch.cells_to_compute:
             id_to_cell[c.id] = c
@@ -33,6 +34,11 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
             cis_env.move_cell_and_connected_cells(
                 c, id_to_cell, id_to_cell_moved)
         # Interaction
+
+        # figting
+
+        for c in incoming_batch.cells_to_compute:
+            cis_env.eat_other_cells(c, incoming_batch.cells_to_compute, id_to_cell, id_combination_to_distance_checked)
 
         # Energy
         for c in incoming_batch.cells_to_compute:
