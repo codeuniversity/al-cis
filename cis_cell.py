@@ -8,6 +8,7 @@ import dna_decoding
 import numpy as np
 import os
 
+
 def move(cell):
     pass
 
