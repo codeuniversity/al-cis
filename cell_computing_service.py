@@ -43,7 +43,7 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
 
         # Fighting
         for c in incoming_batch.cells_to_compute:
-            cis_env.eat_other_cells(c, incoming_batch.cells_to_compute, id_to_cell, id_combination_to_distance_checked)
+            cis_env.eat_closest_other_cell(c, incoming_batch.cells_to_compute, id_to_cell, id_combination_to_distance_checked)
 
         # Energy
         # Get Energy
