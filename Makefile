@@ -11,7 +11,7 @@ run:
 image:
 	docker build -t codealife/al-cis .
 
-check-format:
+checkformat:
 	env/bin/pycodestyle $$(ls | grep '.*\.py' | grep -v '.*pb2.*')
 
 autoformat:

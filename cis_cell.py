@@ -6,6 +6,7 @@ import random
 import math
 import dna_decoding
 import numpy as np
+import os
 
 
 def move(cell):
@@ -88,3 +89,7 @@ def random_vector_of_length(l):
     dist = np.sqrt(vec.dot(vec))
     factor = l / dist
     return vec
+
+
+def random_dna(min_length, max_length):
+    return bytes(os.urandom(random.randint(min_length, max_length)))
