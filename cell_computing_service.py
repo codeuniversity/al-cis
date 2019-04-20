@@ -9,6 +9,7 @@ import dna_decoding
 import os
 import math
 import uuid
+import metrics
 
 import cis_env
 import cis_cell
@@ -17,8 +18,14 @@ import cis_cell
 class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
     """
     """
+    COMPUTE_CELL_INTERACTION_HISTOGRAM = metrics.request_latency_histogram.labels("compute_cell_interactions")
 
+    @COMPUTE_CELL_INTERACTION_HISTOGRAM.time()
     def ComputeCellInteractions(self, incoming_batch, context):
+        """
+            Computes the interaction of the whole batch of cells.
+        """
+
         new_cells = []
         id_to_cell = {}
         id_to_cell_moved = {}
@@ -32,23 +39,35 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
         for c in incoming_batch.cells_to_compute:
             cis_env.move_cell_and_connected_cells(
                 c, id_to_cell, id_to_cell_moved)
+
         # Interaction
 
-        # Energy
+        # Get Energy
+        food_fac = conf.WANTED_CELL_AMOUNT_PER_BUCKET / len(incoming_batch.cells_to_compute)
         for c in incoming_batch.cells_to_compute:
-            cis_env.feed_cell(
+            cis_env.feed(
                 c,
-                id_to_cell,
-                id_to_cell_energy_averaged,
-                food_factor=conf.WANTED_CELL_AMOUNT_PER_BUCKET /
-                len(
-                    incoming_batch.cells_to_compute))
+                incoming_batch.time_step,
+                food_factor=food_fac
+            )
+
+        # Consume Energy
+        for c in incoming_batch.cells_to_compute:
+            cis_cell.consume_energy(c)
 
         # Survival
         living_cells = []
         for c in incoming_batch.cells_to_compute:
             if cis_cell.is_alive(c):
                 living_cells.append(c)
+
+        # Average out energy in connected cells
+        for c in living_cells:
+            cis_env.average_out_energy_in_connected_cells(
+                c,
+                id_to_cell,
+                id_to_cell_energy_averaged
+            )
 
         # Division
         for c in living_cells:
@@ -64,7 +83,15 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
         return new_batch
 
     def BigBang(self, big_bang_request, context):
+        """
+            Creates batch of cells.
+        """
+
+        metrics.request_counter.labels("big_bang").inc()
         for i in range(big_bang_request.cell_amount):
+            initial_position = []
+            for j in conf.WORLD_DIMENSION:
+                initial_position.append(random.uniform(0, j))
             initial_position = proto.Vector(
                 x=random.uniform(big_bang_request.spawn_dimension.start.x, big_bang_request.spawn_dimension.end.x),
                 y=random.uniform(big_bang_request.spawn_dimension.start.y, big_bang_request.spawn_dimension.end.y),

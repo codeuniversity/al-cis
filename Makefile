@@ -6,7 +6,7 @@ proto:
 	env/bin/python -m grpc_tools.protoc -Ial-proto --python_out=. --grpc_python_out=. al-proto/protocol.proto
 
 run:
-	GRPC_PORT=5000 MASTER_ADDRESS='localhost:3000' HOST='localhost' env/bin/python main.py
+	PROMETHEUS_PORT=4444 GRPC_PORT=5000 MASTER_ADDRESS='localhost:3000' HOST='localhost' env/bin/python main.py
 
 image:
 	docker build -t codealife/al-cis .
