@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='proto',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x0eprotocol.proto\x12\x05proto\")\n\x06Vector\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\x12\t\n\x01z\x18\x03 \x01(\x02\"\"\n\nConnection\x12\x14\n\x0c\x63onnected_to\x18\x01 \x01(\t\"\x95\x01\n\x04\x43\x65ll\x12\n\n\x02id\x18\x01 \x01(\t\x12\x14\n\x0c\x65nergy_level\x18\x02 \x01(\x04\x12\x1a\n\x03pos\x18\x03 \x01(\x0b\x32\r.proto.Vector\x12\x1a\n\x03vel\x18\x04 \x01(\x0b\x32\r.proto.Vector\x12\x0b\n\x03\x64na\x18\x05 \x01(\x0c\x12&\n\x0b\x63onnections\x18\x06 \x03(\x0b\x32\x11.proto.Connection\"u\n\x10\x43\x65llComputeBatch\x12\x11\n\ttime_step\x18\x01 \x01(\x04\x12%\n\x10\x63\x65lls_to_compute\x18\x02 \x03(\x0b\x32\x0b.proto.Cell\x12\'\n\x12\x63\x65lls_in_proximity\x18\x03 \x03(\x0b\x32\x0b.proto.Cell\"J\n\x0eSpawnDimension\x12\x1c\n\x05start\x18\x01 \x01(\x0b\x32\r.proto.Vector\x12\x1a\n\x03\x65nd\x18\x02 \x01(\x0b\x32\r.proto.Vector\"*\n\x0e\x44naLengthRange\x12\x0b\n\x03min\x18\x01 \x01(\x04\x12\x0b\n\x03max\x18\x02 \x01(\x04\"\x9c\x01\n\x0e\x42igBangRequest\x12.\n\x0fspawn_dimension\x18\x01 \x01(\x0b\x32\x15.proto.SpawnDimension\x12\x14\n\x0c\x65nergy_level\x18\x02 \x01(\x04\x12\x13\n\x0b\x63\x65ll_amount\x18\x03 \x01(\x04\x12/\n\x10\x64na_length_range\x18\x04 \x01(\x0b\x32\x15.proto.DnaLengthRange\"5\n\x11SlaveRegistration\x12\x0f\n\x07\x61\x64\x64ress\x18\x01 \x01(\t\x12\x0f\n\x07threads\x18\x02 \x01(\r\"\x1b\n\x19SlaveRegistrationResponse2\x96\x01\n\x16\x43\x65llInteractionService\x12K\n\x17\x43omputeCellInteractions\x12\x17.proto.CellComputeBatch\x1a\x17.proto.CellComputeBatch\x12/\n\x07\x42igBang\x12\x15.proto.BigBangRequest\x1a\x0b.proto.Cell0\x01\x32\x62\n\x18SlaveRegistrationService\x12\x46\n\x08Register\x12\x18.proto.SlaveRegistration\x1a .proto.SlaveRegistrationResponseb\x06proto3')
+  serialized_pb=_b('\n\x0eprotocol.proto\x12\x05proto\")\n\x06Vector\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\x12\t\n\x01z\x18\x03 \x01(\x02\"\"\n\nConnection\x12\x14\n\x0c\x63onnected_to\x18\x01 \x01(\t\"\x95\x01\n\x04\x43\x65ll\x12\n\n\x02id\x18\x01 \x01(\t\x12\x14\n\x0c\x65nergy_level\x18\x02 \x01(\x04\x12\x1a\n\x03pos\x18\x03 \x01(\x0b\x32\r.proto.Vector\x12\x1a\n\x03vel\x18\x04 \x01(\x0b\x32\r.proto.Vector\x12\x0b\n\x03\x64na\x18\x05 \x01(\x0c\x12&\n\x0b\x63onnections\x18\x06 \x03(\x0b\x32\x11.proto.Connection\"\x88\x01\n\x10\x43\x65llComputeBatch\x12\x11\n\ttime_step\x18\x01 \x01(\x04\x12%\n\x10\x63\x65lls_to_compute\x18\x02 \x03(\x0b\x32\x0b.proto.Cell\x12\'\n\x12\x63\x65lls_in_proximity\x18\x03 \x03(\x0b\x32\x0b.proto.Cell\x12\x11\n\tbatch_key\x18\x04 \x01(\t\"J\n\x0eSpawnDimension\x12\x1c\n\x05start\x18\x01 \x01(\x0b\x32\r.proto.Vector\x12\x1a\n\x03\x65nd\x18\x02 \x01(\x0b\x32\r.proto.Vector\"*\n\x0e\x44naLengthRange\x12\x0b\n\x03min\x18\x01 \x01(\x04\x12\x0b\n\x03max\x18\x02 \x01(\x04\"\x9c\x01\n\x0e\x42igBangRequest\x12.\n\x0fspawn_dimension\x18\x01 \x01(\x0b\x32\x15.proto.SpawnDimension\x12\x14\n\x0c\x65nergy_level\x18\x02 \x01(\x04\x12\x13\n\x0b\x63\x65ll_amount\x18\x03 \x01(\x04\x12/\n\x10\x64na_length_range\x18\x04 \x01(\x0b\x32\x15.proto.DnaLengthRange\"5\n\x11SlaveRegistration\x12\x0f\n\x07\x61\x64\x64ress\x18\x01 \x01(\t\x12\x0f\n\x07threads\x18\x02 \x01(\r\"\x1b\n\x19SlaveRegistrationResponse2\x96\x01\n\x16\x43\x65llInteractionService\x12K\n\x17\x43omputeCellInteractions\x12\x17.proto.CellComputeBatch\x1a\x17.proto.CellComputeBatch\x12/\n\x07\x42igBang\x12\x15.proto.BigBangRequest\x1a\x0b.proto.Cell0\x01\x32\x62\n\x18SlaveRegistrationService\x12\x46\n\x08Register\x12\x18.proto.SlaveRegistration\x1a .proto.SlaveRegistrationResponseb\x06proto3')
 )
 
 
@@ -195,6 +195,13 @@ _CELLCOMPUTEBATCH = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='batch_key', full_name='proto.CellComputeBatch.batch_key', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -207,8 +214,8 @@ _CELLCOMPUTEBATCH = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=256,
-  serialized_end=373,
+  serialized_start=257,
+  serialized_end=393,
 )
 
 
@@ -245,8 +252,8 @@ _SPAWNDIMENSION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=375,
-  serialized_end=449,
+  serialized_start=395,
+  serialized_end=469,
 )
 
 
@@ -283,8 +290,8 @@ _DNALENGTHRANGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=451,
-  serialized_end=493,
+  serialized_start=471,
+  serialized_end=513,
 )
 
 
@@ -335,8 +342,8 @@ _BIGBANGREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=496,
-  serialized_end=652,
+  serialized_start=516,
+  serialized_end=672,
 )
 
 
@@ -373,8 +380,8 @@ _SLAVEREGISTRATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=654,
-  serialized_end=707,
+  serialized_start=674,
+  serialized_end=727,
 )
 
 
@@ -397,8 +404,8 @@ _SLAVEREGISTRATIONRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=709,
-  serialized_end=736,
+  serialized_start=729,
+  serialized_end=756,
 )
 
 _CELL.fields_by_name['pos'].message_type = _VECTOR
@@ -492,8 +499,8 @@ _CELLINTERACTIONSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=739,
-  serialized_end=889,
+  serialized_start=759,
+  serialized_end=909,
   methods=[
   _descriptor.MethodDescriptor(
     name='ComputeCellInteractions',
@@ -525,8 +532,8 @@ _SLAVEREGISTRATIONSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=1,
   serialized_options=None,
-  serialized_start=891,
-  serialized_end=989,
+  serialized_start=911,
+  serialized_end=1009,
   methods=[
   _descriptor.MethodDescriptor(
     name='Register',

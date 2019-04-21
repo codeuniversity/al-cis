@@ -79,6 +79,7 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
             time_step=incoming_batch.time_step,
             cells_to_compute=living_cells,
             cells_in_proximity=incoming_batch.cells_in_proximity,
+            batch_key=incoming_batch.batch_key,
         )
         return new_batch
 
