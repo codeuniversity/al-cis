@@ -18,13 +18,22 @@ def serve():
     server.add_insecure_port('[::]:' + os.environ['GRPC_PORT'])
     server.start()
 
-    channel = grpc.insecure_channel(os.environ['MASTER_ADDRESS'])
+    channel = grpc.insecure_channel(os.environ['MASTER_ADDRESS1'])
     stub = grpc_proto.SlaveRegistrationServiceStub(channel)
     stub.Register(
         proto.SlaveRegistration(
             address=os.environ['HOST'] +
             ":" +
             os.environ['GRPC_PORT'],
+            threads=1))
+
+    channel = grpc.insecure_channel(os.environ['MASTER_ADDRESS2'])
+    stub = grpc_proto.SlaveRegistrationServiceStub(channel)
+    stub.Register(
+        proto.SlaveRegistration(
+            address=os.environ['HOST'] +
+                    ":" +
+                    os.environ['GRPC_PORT'],
             threads=1))
 
     try:
