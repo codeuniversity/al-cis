@@ -9,8 +9,8 @@ import grpc
 import protocol_pb2 as proto
 import protocol_pb2_grpc as grpc_proto
 
-import cis_env
-import cis_cell
+import cis_env as env
+from cis_cell import map_cells_to_dict, cells_consume_energy, cells_survive, cells_divide, random_dna
 import cis_config as conf
 import dna_decoding
 import metrics
@@ -29,65 +29,38 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
             Computes the interaction of one batch of cells.
         """
 
-        incom_cells = incoming_batch.cells_to_compute
+        cell_batch = incoming_batch.cells_to_compute
 
-        map_id_to_cell = {}
-        map_id_to_cell_moved = {}
+        id_to_cell_dict = map_cells_to_dict(cell_batch)
+        id_to_cell_dict = map_cells_to_dict(incoming_batch.cells_in_proximity, id_to_cell_dict)
 
-        for c in incom_cells:
-            map_id_to_cell[c.id] = c
+        env.move_cells(
+            cell_batch,
+            id_to_cell_dict
+        )
 
-        for c in incoming_batch.cells_in_proximity:
-            map_id_to_cell[c.id] = c
+        env.feed_cells(
+            cell_batch,
+            incoming_batch.time_step
+        )
 
-        # Movement
-        for c in incom_cells:
-            cis_env.move_cell_and_connected_cells(
-                c, map_id_to_cell, map_id_to_cell_moved
-            )
+        cells_consume_energy(cell_batch)
 
-        # Interaction
-
-        # Get Energy
-        food_fac = conf.WANTED_CELL_AMOUNT_PER_BUCKET / len(incom_cells)
-        for c in incom_cells:
-            cis_env.feed(
-                c,
-                incoming_batch.time_step,
-                food_factor=food_fac
-            )
-
-        # Consume Energy
-        for c in incom_cells:
-            cis_cell.consume_energy(c)
-
-        # Survival
         living_cells = []
-        for c in incom_cells:
-            if cis_cell.is_alive(c):
-                living_cells.append(c)
+        living_cells = cells_survive(cell_batch)
 
-        # Average out energy in connected cells
-        map_id_to_cell_energy_averaged = {}
-        for c in living_cells:
-            cis_env.average_out_energy_in_connected_cells(
-                c,
-                map_id_to_cell,
-                map_id_to_cell_energy_averaged
-            )
+        env.average_out_cell_energy(living_cells, id_to_cell_dict)
 
-        # Division
-        for c in living_cells:
-            new_cell = cis_cell.divide(c)
-            if new_cell is not None:
-                living_cells.append(new_cell)
+        cells_divide(living_cells)
 
+        # format living_cells for protobuff
         new_batch = proto.CellComputeBatch(
             time_step=incoming_batch.time_step,
             cells_to_compute=living_cells,
             cells_in_proximity=incoming_batch.cells_in_proximity,
             batch_key=incoming_batch.batch_key,
         )
+
         return new_batch
 
     def BigBang(self, big_bang_request, context):
@@ -114,7 +87,7 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
                     x=0,
                     y=0,
                     z=0),
-                dna=cis_cell.random_dna(
+                dna=random_dna(
                     min_length=big_bang_request.dna_length_range.min,
                     max_length=big_bang_request.dna_length_range.max,
                 ),

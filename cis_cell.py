@@ -9,8 +9,20 @@ import protocol_pb2 as proto
 import cis_config as conf
 import dna_decoding
 
+
 def move(cell):
     pass
+
+
+def cells_survive(cells):
+
+    survived_cells = []
+
+    for c in cells:
+        if is_alive(c):
+            survived_cells.append(c)
+
+    return survived_cells
 
 
 def is_alive(cell):
@@ -19,6 +31,12 @@ def is_alive(cell):
         return False
     else:
         return True
+
+
+def cells_consume_energy(cells):
+
+    for c in cells:
+        consume_energy(c)
 
 
 def consume_energy(cell):
@@ -41,6 +59,14 @@ def dna_copy_or_sub_slice(cell):
     if dna_decoding.dna_should_sub_slice(cell.dna, len(cell.connections)):
         return dna_decoding.dna_sub_slice(cell.dna, len(cell.connections))
     return cell.dna
+
+
+def cells_divide(cells):
+
+    for c in cells:
+        new_cell = divide(c)
+        if new_cell is not None:
+            cells.append(new_cell)
 
 
 def divide(cell):
@@ -93,3 +119,11 @@ def random_vector_of_length(l):
 
 def random_dna(min_length, max_length):
     return bytes(os.urandom(random.randint(min_length, max_length)))
+
+
+def map_cells_to_dict(cells, dic={}):
+
+    for c in cells:
+        dic[c.id] = c
+
+    return dic

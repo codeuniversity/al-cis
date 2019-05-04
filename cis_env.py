@@ -15,7 +15,19 @@ def curl(pos, vec_len=0.004, coor_origin=conf.CURL_CENTRE):
     return curl_pos * vec_len
 
 
-def feed(cell, time_step, food_factor=1):
+def feed_cells(cells, time_step):
+
+    food_fac = conf.WANTED_CELL_AMOUNT_PER_BUCKET / len(cells)
+
+    for c in cells:
+        feed_cell(
+            c,
+            time_step,
+            food_fac
+        )
+
+
+def feed_cell(cell, time_step, food_factor=1):
     """
         Give the cell food,
         depending on position and time_step.
@@ -75,6 +87,16 @@ def get_value(dict, key):
         return None, False
 
 
+def move_cells(cells, cell_dict):
+
+    id_to_cell_moved_dict = {}
+    
+    for c in cells:
+        move_cell_and_connected_cells(
+            c, cell_dict, id_to_cell_moved_dict
+        )
+
+
 def move_cell_and_connected_cells(cell, cell_dict, moved_dict):
     global curl
     _value, moved = get_value(moved_dict, cell.id)
@@ -95,6 +117,18 @@ def move_cell_and_connected_cells(cell, cell_dict, moved_dict):
         g_cell.pos.y += g_cell_mov[1]
         g_cell.pos.z += g_cell_mov[2]
         moved_dict[g_cell.id] = True
+
+
+def average_out_cell_energy(cells, cell_dict):
+
+    map_id_to_cell_energy_averaged = {}
+    
+    for c in cells:
+        average_out_energy_in_connected_cells(
+            c,
+            cell_dict,
+            map_id_to_cell_energy_averaged
+        )
 
 
 def average_out_energy_in_connected_cells(cell, cell_dict, already_averaged_dict):
