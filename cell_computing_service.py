@@ -96,7 +96,7 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
         """
 
         metrics.request_counter.labels("big_bang").inc()
-        for i in range(big_bang_request.cell_amount):
+        for _ in range(big_bang_request.cell_amount):
             initial_position = []
             for j in conf.WORLD_DIMENSION:
                 initial_position.append(random.uniform(0, j))
