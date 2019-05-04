@@ -25,7 +25,7 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
     @COMPUTE_CELL_INTERACTION_HISTOGRAM.time()
     def ComputeCellInteractions(self, incoming_batch, context):
         """
-            Computes the interaction of the whole batch of cells.
+            Computes the interaction of one batch of cells.
         """
 
         new_cells = []
