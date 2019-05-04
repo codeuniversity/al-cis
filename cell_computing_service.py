@@ -10,10 +10,11 @@ import protocol_pb2 as proto
 import protocol_pb2_grpc as grpc_proto
 
 import cis_env as env
-from cis_cell import map_cells_to_dict, cells_consume_energy, cells_survive, cells_divide, random_dna
+from cis_cell import cells_consume_energy, cells_survive, cells_divide, random_dna
 import cis_config as conf
 import dna_decoding
 import metrics
+import cis_helper as helper
 
 
 class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
@@ -31,8 +32,8 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
 
         cell_batch = incoming_batch.cells_to_compute
 
-        id_to_cell_dict = map_cells_to_dict(cell_batch)
-        id_to_cell_dict = map_cells_to_dict(incoming_batch.cells_in_proximity, id_to_cell_dict)
+        id_to_cell_dict = helper.map_cells_to_dict(cell_batch)
+        id_to_cell_dict = helper.map_cells_to_dict(incoming_batch.cells_in_proximity, id_to_cell_dict)
 
         env.move_cells(
             cell_batch,

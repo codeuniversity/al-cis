@@ -115,11 +115,3 @@ def random_vector_of_length(l):
 
 def random_dna(min_length, max_length):
     return bytes(os.urandom(random.randint(min_length, max_length)))
-
-
-def map_cells_to_dict(cells, dic={}):
-
-    for c in cells:
-        dic[c.id] = c
-
-    return dic

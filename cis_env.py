@@ -4,6 +4,7 @@ import random
 from cis_cell import random_vector_of_length
 import cis_config as conf
 import dna_decoding
+from cis_helper import get_value
 
 
 def curl(pos, vec_len=0.004, coor_origin=conf.CURL_CENTRE):
@@ -79,18 +80,10 @@ def wave_function(x, t, max_ampli=1, oscillation_period=1, init_deflection=0):
     return max_ampli * np.sin(sinput)
 
 
-def get_value(dict, key):
-    try:
-        value = dict[key]
-        return value, True
-    except BaseException:
-        return None, False
-
-
 def move_cells(cells, cell_dict):
 
     id_to_cell_moved_dict = {}
-    
+
     for c in cells:
         move_cell_and_connected_cells(
             c, cell_dict, id_to_cell_moved_dict
@@ -122,7 +115,7 @@ def move_cell_and_connected_cells(cell, cell_dict, moved_dict):
 def average_out_cell_energy(cells, cell_dict):
 
     map_id_to_cell_energy_averaged = {}
-    
+
     for c in cells:
         average_out_energy_in_connected_cells(
             c,
