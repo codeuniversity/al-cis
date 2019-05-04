@@ -19,7 +19,7 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
     """
     Handles computation of cells.
     """
-    
+
     COMPUTE_CELL_INTERACTION_HISTOGRAM = metrics.request_latency_histogram.labels("compute_cell_interactions")
 
     @COMPUTE_CELL_INTERACTION_HISTOGRAM.time()
@@ -28,25 +28,28 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
             Computes the interaction of one batch of cells.
         """
 
-        new_cells = []
-        id_to_cell = {}
-        id_to_cell_moved = {}
-        id_to_cell_energy_averaged = {}
-        for c in incoming_batch.cells_to_compute:
-            id_to_cell[c.id] = c
+        incom_cells = incoming_batch.cells_to_compute
+
+        map_id_to_cell = {}
+        map_id_to_cell_moved = {}
+
+        for c in incom_cells:
+            map_id_to_cell[c.id] = c
+
         for c in incoming_batch.cells_in_proximity:
-            id_to_cell[c.id] = c
+            map_id_to_cell[c.id] = c
 
         # Movement
-        for c in incoming_batch.cells_to_compute:
+        for c in incom_cells:
             cis_env.move_cell_and_connected_cells(
-                c, id_to_cell, id_to_cell_moved)
+                c, map_id_to_cell, map_id_to_cell_moved
+            )
 
         # Interaction
 
         # Get Energy
-        food_fac = conf.WANTED_CELL_AMOUNT_PER_BUCKET / len(incoming_batch.cells_to_compute)
-        for c in incoming_batch.cells_to_compute:
+        food_fac = conf.WANTED_CELL_AMOUNT_PER_BUCKET / len(incom_cells)
+        for c in incom_cells:
             cis_env.feed(
                 c,
                 incoming_batch.time_step,
@@ -54,21 +57,22 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
             )
 
         # Consume Energy
-        for c in incoming_batch.cells_to_compute:
+        for c in incom_cells:
             cis_cell.consume_energy(c)
 
         # Survival
         living_cells = []
-        for c in incoming_batch.cells_to_compute:
+        for c in incom_cells:
             if cis_cell.is_alive(c):
                 living_cells.append(c)
 
         # Average out energy in connected cells
+        map_id_to_cell_energy_averaged = {}
         for c in living_cells:
             cis_env.average_out_energy_in_connected_cells(
                 c,
-                id_to_cell,
-                id_to_cell_energy_averaged
+                map_id_to_cell,
+                map_id_to_cell_energy_averaged
             )
 
         # Division
