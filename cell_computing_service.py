@@ -17,7 +17,9 @@ import cis_cell
 
 class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
     """
+    Handles computation of cells.
     """
+    
     COMPUTE_CELL_INTERACTION_HISTOGRAM = metrics.request_latency_histogram.labels("compute_cell_interactions")
 
     @COMPUTE_CELL_INTERACTION_HISTOGRAM.time()
