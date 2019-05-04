@@ -1,13 +1,13 @@
-# from cis_dna import
-import cis_config as conf
-import protocol_pb2 as proto
-import uuid
-import random
-import math
-import dna_decoding
 import numpy as np
+import random
 import os
+import math
+import uuid
 
+import protocol_pb2 as proto
+
+import cis_config as conf
+import dna_decoding
 
 def move(cell):
     pass

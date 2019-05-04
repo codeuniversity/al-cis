@@ -1,8 +1,9 @@
-import cis_config as conf
-import random
 import numpy as np
-import dna_decoding
+import random
+
 from cis_cell import random_vector_of_length
+import cis_config as conf
+import dna_decoding
 
 
 def curl(pos, vec_len=0.004, coor_origin=conf.CURL_CENTRE):
@@ -96,8 +97,7 @@ def move_cell_and_connected_cells(cell, cell_dict, moved_dict):
         moved_dict[g_cell.id] = True
 
 
-def average_out_energy_in_connected_cells(
-        cell, cell_dict, already_averaged_dict):
+def average_out_energy_in_connected_cells(cell, cell_dict, already_averaged_dict):
     _, already_averaged = get_value(already_averaged_dict, cell.id)
     if already_averaged:
         return

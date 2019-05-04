@@ -1,18 +1,19 @@
 import numpy as np
-import grpc
-import protocol_pb2 as proto
-import protocol_pb2_grpc as grpc_proto
-import cis_config as conf
 import random
 import time
-import dna_decoding
 import os
 import math
 import uuid
-import metrics
+
+import grpc
+import protocol_pb2 as proto
+import protocol_pb2_grpc as grpc_proto
 
 import cis_env
 import cis_cell
+import cis_config as conf
+import dna_decoding
+import metrics
 
 
 class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
