@@ -10,10 +10,6 @@ import cis_config as conf
 import dna_decoding
 
 
-def move(cell):
-    pass
-
-
 def cells_survive(cells):
 
     survived_cells = []
