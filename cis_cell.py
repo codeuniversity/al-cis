@@ -8,6 +8,7 @@ import protocol_pb2 as proto
 
 import cis_config as conf
 import dna_decoding
+from cis_helper import get_value
 
 
 def cells_survive(cells):
@@ -115,3 +116,40 @@ def random_vector_of_length(l):
 
 def random_dna(min_length, max_length):
     return bytes(os.urandom(random.randint(min_length, max_length)))
+
+
+def average_out_cell_energy(cells, cell_dict):
+
+    map_id_to_cell_energy_averaged = {}
+
+    for c in cells:
+        average_out_energy_in_connected_cells(
+            c,
+            cell_dict,
+            map_id_to_cell_energy_averaged
+        )
+
+
+def average_out_energy_in_connected_cells(cell, cell_dict, already_averaged_dict):
+    _, already_averaged = get_value(already_averaged_dict, cell.id)
+    if already_averaged:
+        return
+
+    cell_group = group_connected_cells([cell], cell, cell_dict)
+    energy_sum = 0
+    for c in cell_group:
+        energy_sum += c.energy_level
+
+    for c in cell_group:
+        c.energy_level = int(energy_sum / len(cell_group))
+        already_averaged_dict[c.id] = True
+
+
+def group_connected_cells(group, cell, cell_dict):
+    for conn in cell.connections:
+        other_cell, exists = get_value(cell_dict, conn.connected_to)
+        if exists:
+            if other_cell not in group:
+                group.append(other_cell)
+                group_connected_cells(group, other_cell, cell_dict)
+    return group

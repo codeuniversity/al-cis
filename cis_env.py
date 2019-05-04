@@ -1,7 +1,7 @@
 import numpy as np
 import random
 
-from cis_cell import random_vector_of_length
+from cis_cell import random_vector_of_length, group_connected_cells
 import cis_config as conf
 import dna_decoding
 from cis_helper import get_value
@@ -110,40 +110,3 @@ def move_cell_and_connected_cells(cell, cell_dict, moved_dict):
         g_cell.pos.y += g_cell_mov[1]
         g_cell.pos.z += g_cell_mov[2]
         moved_dict[g_cell.id] = True
-
-
-def average_out_cell_energy(cells, cell_dict):
-
-    map_id_to_cell_energy_averaged = {}
-
-    for c in cells:
-        average_out_energy_in_connected_cells(
-            c,
-            cell_dict,
-            map_id_to_cell_energy_averaged
-        )
-
-
-def average_out_energy_in_connected_cells(cell, cell_dict, already_averaged_dict):
-    _, already_averaged = get_value(already_averaged_dict, cell.id)
-    if already_averaged:
-        return
-
-    cell_group = group_connected_cells([cell], cell, cell_dict)
-    energy_sum = 0
-    for c in cell_group:
-        energy_sum += c.energy_level
-
-    for c in cell_group:
-        c.energy_level = int(energy_sum / len(cell_group))
-        already_averaged_dict[c.id] = True
-
-
-def group_connected_cells(group, cell, cell_dict):
-    for conn in cell.connections:
-        other_cell, exists = get_value(cell_dict, conn.connected_to)
-        if exists:
-            if other_cell not in group:
-                group.append(other_cell)
-                group_connected_cells(group, other_cell, cell_dict)
-    return group
