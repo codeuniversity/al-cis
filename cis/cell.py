@@ -4,9 +4,9 @@ import uuid
 
 import protocol_pb2 as proto
 
-import cis_config as conf
-import dna_decoding
-from cis_helper import get_value, group_connected_cells, random_vector_of_length
+import cis.config as conf
+import cis.dna_decoding as dna_decoding
+from cis.helper import get_value, group_connected_cells, random_vector_of_length
 
 
 # energy consumption

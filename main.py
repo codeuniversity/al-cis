@@ -7,8 +7,8 @@ import protocol_pb2 as proto
 import os
 import prometheus_client
 
-from cell_computing_service import CellComputeServicer
-import cis_config as config
+from cis.cell_computing_service import CellComputeServicer
+import cis.config as config
 
 
 def serve():

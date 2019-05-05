@@ -4,11 +4,11 @@ import uuid
 import protocol_pb2 as proto
 import protocol_pb2_grpc as grpc_proto
 
-import cis_env as env
-from cis_cell import cells_consume_energy, cells_survive, cells_divide, random_dna, average_out_cell_energy
-import cis_config as conf
-import metrics
-import cis_helper as helper
+import cis.env as env
+from cis.cell import cells_consume_energy, cells_survive, cells_divide, random_dna, average_out_cell_energy
+import cis.config as conf
+import cis.metrics as metrics
+import cis.helper as helper
 
 
 class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):

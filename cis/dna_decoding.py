@@ -1,6 +1,6 @@
 from bitstring import BitArray
 import os
-import cis_config as config
+import cis.config as config
 import random
 
 initial_energy_feature = BitArray(bytes=bytearray(b'\xff')).int
