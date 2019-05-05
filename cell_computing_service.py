@@ -32,8 +32,9 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
 
         cell_batch = incoming_batch.cells_to_compute
 
-        id_to_cell_dict = helper.map_cells_to_dict(cell_batch)
-        id_to_cell_dict = helper.map_cells_to_dict(incoming_batch.cells_in_proximity, id_to_cell_dict)
+        id_to_cell_dict = {}
+        helper.map_cells_to_dict(cell_batch, id_to_cell_dict)
+        helper.map_cells_to_dict(incoming_batch.cells_in_proximity, id_to_cell_dict)
 
         env.move_cells(
             cell_batch,

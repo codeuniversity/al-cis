@@ -1,9 +1,7 @@
-def map_cells_to_dict(cells, dic={}):
+def map_cells_to_dict(cells, dic):
 
     for c in cells:
         dic[c.id] = c
-
-    return dic
 
 
 def get_value(dict, key):
