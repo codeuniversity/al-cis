@@ -1,25 +1,19 @@
-import numpy as np
 import random
-import time
-import os
-import math
 import uuid
 
-import grpc
 import protocol_pb2 as proto
 import protocol_pb2_grpc as grpc_proto
 
 import cis_env as env
 from cis_cell import cells_consume_energy, cells_survive, cells_divide, random_dna, average_out_cell_energy
 import cis_config as conf
-import dna_decoding
 import metrics
 import cis_helper as helper
 
 
 class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
     """
-    Handles computation of cells.
+        Handles computation of cells.
     """
 
     COMPUTE_CELL_INTERACTION_HISTOGRAM = metrics.request_latency_histogram.labels("compute_cell_interactions")
@@ -69,12 +63,13 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
         """
             Creates batch of cells.
         """
-
         metrics.request_counter.labels("big_bang").inc()
+
         for _ in range(big_bang_request.cell_amount):
             initial_position = []
             for j in conf.WORLD_DIMENSION:
                 initial_position.append(random.uniform(0, j))
+
             initial_position = proto.Vector(
                 x=random.uniform(big_bang_request.spawn_dimension.start.x, big_bang_request.spawn_dimension.end.x),
                 y=random.uniform(big_bang_request.spawn_dimension.start.y, big_bang_request.spawn_dimension.end.y),
@@ -94,4 +89,5 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
                     max_length=big_bang_request.dna_length_range.max,
                 ),
                 connections=[])
+
             yield cell
