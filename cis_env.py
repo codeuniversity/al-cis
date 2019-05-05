@@ -2,6 +2,7 @@ import cis_config as conf
 import random
 import numpy as np
 import dna_decoding
+import math
 from cis_cell import random_vector_of_length
 
 
@@ -120,3 +121,53 @@ def group_connected_cells(group, cell, cell_dict):
                 group.append(other_cell)
                 group_connected_cells(group, other_cell, cell_dict)
     return group
+
+
+def eat_closest_other_cell(cell, other_cells, cell_dict, already_checked_dict):
+    min_distance = None
+    closest_cell = None
+    cell_group = group_connected_cells([cell], cell, cell_dict)
+    for other_cell in other_cells:
+        _value, already_checked = get_value(already_checked_dict, key_combination(other_cell.id, cell.id))
+        if already_checked:
+            next
+        if in_distance(cell.pos, other_cell.pos, conf.CELL_EATING_DISTANCE):
+            dist_to_other = distance(cell.pos, other_cell.pos)
+            if min_distance is None or dist_to_other < min_distance:
+                min_distance = dist_to_other
+                closest_cell = other_cell
+            already_checked_dict[key_combination(cell.id, other_cell.id)] = True
+
+    if closest_cell is not None:
+        eat_both_ways(cell, closest_cell)
+
+
+def eat_both_ways(cell, other_cell):
+    cell_eating_strength = dna_decoding.eating_strength(cell.dna, other_cell.dna)
+    other_cell_eating_strength = dna_decoding.eating_strength(other_cell.dna, cell.dna)
+    transfer_amount = int(cell_eating_strength - other_cell_eating_strength)
+    cell.energy_level += transfer_amount
+    other_cell.energy_level -= transfer_amount
+
+
+def in_distance(pos, other_pos, distance):
+    d_x = abs(pos.x - other_pos.x)
+    if d_x > distance:
+        return False
+    d_y = abs(pos.y - other_pos.y)
+    if d_y > distance:
+        return False
+    d_z = abs(pos.z - other_pos.z)
+    if d_z > distance:
+        return False
+
+    return math.sqrt(d_x * d_x + d_y * d_y + d_z * d_z) < distance
+
+def distance(pos, other_pos):
+    d_x = pos.x - other_pos.x
+    d_y = pos.y - other_pos.y
+    d_z = pos.z - other_pos.z
+    return math.sqrt(d_x * d_x + d_y * d_y + d_z * d_z)
+
+def key_combination(id, other_id):
+    return "{0}/{1}".format(id, other_id)

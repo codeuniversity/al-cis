@@ -24,7 +24,30 @@ def feature_in_dna(dna, feature, shift_by=0, start_at=0):
         feature_hit_count += bin(overlap).count('1')
         feature_copy = shift_bits_by(feature_copy, shift_by)
     max_hits = len(dna) * bin(feature).count('1')
+    if max_hits == 0:
+        return 0
     return feature_hit_count / max_hits
+
+
+def eating_strength(dna, other_dna):
+    feature = eating_strength_feature(dna)
+    dna_diff = dna_difference(dna, other_dna)
+    return feature_in_dna(dna_diff, feature)
+
+
+def eating_strength_feature(dna):
+    feature = 0
+    for b in dna:
+        feature = feature ^ b
+    return feature
+
+
+def dna_difference(dna, other_dna):
+    a = int.from_bytes(dna, byteorder='big')
+    b = int.from_bytes(dna, byteorder='big')
+    diff = a ^ b
+
+    return bytes([diff])
 
 
 def feature_value_with_connections(dna, feature, current_connection_count):
@@ -124,3 +147,9 @@ def random_bool_with_threshold(threshold):
 def mutate_bit_array(bit_array):
     random_index = random.randint(0, len(bit_array) - 1)
     bit_array[random_index] = not bit_array[random_index]
+
+
+def element_or_zero(byte_arr, index):
+    if index >= len(byte_arr):
+        return 0
+    return byte_arr[index]

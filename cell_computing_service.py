@@ -29,6 +29,7 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
         new_cells = []
         id_to_cell = {}
         id_to_cell_moved = {}
+        id_combination_to_distance_checked = {}
         id_to_cell_energy_averaged = {}
         for c in incoming_batch.cells_to_compute:
             id_to_cell[c.id] = c
@@ -42,6 +43,12 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
 
         # Interaction
 
+
+        # Fighting
+        for c in incoming_batch.cells_to_compute:
+            cis_env.eat_closest_other_cell(c, incoming_batch.cells_to_compute, id_to_cell, id_combination_to_distance_checked)
+
+        # Energy
         # Get Energy
         food_fac = conf.WANTED_CELL_AMOUNT_PER_BUCKET / len(incoming_batch.cells_to_compute)
         for c in incoming_batch.cells_to_compute:
