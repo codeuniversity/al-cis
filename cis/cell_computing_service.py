@@ -70,10 +70,11 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
             for j in conf.WORLD_DIMENSION:
                 initial_position.append(random.uniform(0, j))
 
+            dim = big_bang_request.spawn_dimension
             initial_position = proto.Vector(
-                x=random.uniform(big_bang_request.spawn_dimension.start.x, big_bang_request.spawn_dimension.end.x),
-                y=random.uniform(big_bang_request.spawn_dimension.start.y, big_bang_request.spawn_dimension.end.y),
-                z=random.uniform(big_bang_request.spawn_dimension.start.z, big_bang_request.spawn_dimension.end.z)
+                x=random.uniform(dim.start.x, dim.end.x),
+                y=random.uniform(dim.start.y, dim.end.y),
+                z=random.uniform(dim.start.z, dim.end.z)
             )
 
             cell = proto.Cell(
