@@ -10,7 +10,7 @@ import protocol_pb2 as proto
 import protocol_pb2_grpc as grpc_proto
 
 import cis_env as env
-from cis_cell import cells_consume_energy, cells_survive, cells_divide, random_dna
+from cis_cell import cells_consume_energy, cells_survive, cells_divide, random_dna, average_out_cell_energy
 import cis_config as conf
 import dna_decoding
 import metrics
@@ -50,7 +50,7 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
         living_cells = []
         living_cells = cells_survive(cell_batch)
 
-        env.average_out_cell_energy(living_cells, id_to_cell_dict)
+        average_out_cell_energy(living_cells, id_to_cell_dict)
 
         cells_divide(living_cells)
 
