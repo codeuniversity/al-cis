@@ -1,86 +1,68 @@
 import numpy as np
-import grpc
-import protocol_pb2 as proto
-import protocol_pb2_grpc as grpc_proto
-import cis_config as conf
 import random
 import time
-import dna_decoding
 import os
 import math
 import uuid
-import metrics
 
-import cis_env
-import cis_cell
+import grpc
+import protocol_pb2 as proto
+import protocol_pb2_grpc as grpc_proto
+
+import cis_env as env
+from cis_cell import cells_consume_energy, cells_survive, cells_divide, random_dna, average_out_cell_energy
+import cis_config as conf
+import dna_decoding
+import metrics
+import cis_helper as helper
 
 
 class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
     """
+    Handles computation of cells.
     """
+
     COMPUTE_CELL_INTERACTION_HISTOGRAM = metrics.request_latency_histogram.labels("compute_cell_interactions")
 
     @COMPUTE_CELL_INTERACTION_HISTOGRAM.time()
     def ComputeCellInteractions(self, incoming_batch, context):
         """
-            Computes the interaction of the whole batch of cells.
+            Computes the interaction of one batch of cells.
         """
 
-        new_cells = []
-        id_to_cell = {}
-        id_to_cell_moved = {}
-        id_to_cell_energy_averaged = {}
-        for c in incoming_batch.cells_to_compute:
-            id_to_cell[c.id] = c
-        for c in incoming_batch.cells_in_proximity:
-            id_to_cell[c.id] = c
+        cell_batch = incoming_batch.cells_to_compute
 
-        # Movement
-        for c in incoming_batch.cells_to_compute:
-            cis_env.move_cell_and_connected_cells(
-                c, id_to_cell, id_to_cell_moved)
+        id_to_cell_dict = {}
+        helper.map_cells_to_dict(cell_batch, id_to_cell_dict)
+        helper.map_cells_to_dict(incoming_batch.cells_in_proximity, id_to_cell_dict)
 
-        # Interaction
+        env.move_cells(
+            cell_batch,
+            id_to_cell_dict
+        )
 
-        # Get Energy
-        food_fac = conf.WANTED_CELL_AMOUNT_PER_BUCKET / len(incoming_batch.cells_to_compute)
-        for c in incoming_batch.cells_to_compute:
-            cis_env.feed(
-                c,
-                incoming_batch.time_step,
-                food_factor=food_fac
-            )
+        env.feed_cells(
+            cell_batch,
+            incoming_batch.time_step
+        )
 
-        # Consume Energy
-        for c in incoming_batch.cells_to_compute:
-            cis_cell.consume_energy(c)
+        cells_consume_energy(cell_batch)
 
-        # Survival
         living_cells = []
-        for c in incoming_batch.cells_to_compute:
-            if cis_cell.is_alive(c):
-                living_cells.append(c)
+        living_cells = cells_survive(cell_batch)
 
-        # Average out energy in connected cells
-        for c in living_cells:
-            cis_env.average_out_energy_in_connected_cells(
-                c,
-                id_to_cell,
-                id_to_cell_energy_averaged
-            )
+        average_out_cell_energy(living_cells, id_to_cell_dict)
 
-        # Division
-        for c in living_cells:
-            new_cell = cis_cell.divide(c)
-            if new_cell is not None:
-                living_cells.append(new_cell)
+        cells_divide(living_cells)
 
+        # format living_cells for protobuff
         new_batch = proto.CellComputeBatch(
             time_step=incoming_batch.time_step,
             cells_to_compute=living_cells,
             cells_in_proximity=incoming_batch.cells_in_proximity,
             batch_key=incoming_batch.batch_key,
         )
+
         return new_batch
 
     def BigBang(self, big_bang_request, context):
@@ -89,7 +71,7 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
         """
 
         metrics.request_counter.labels("big_bang").inc()
-        for i in range(big_bang_request.cell_amount):
+        for _ in range(big_bang_request.cell_amount):
             initial_position = []
             for j in conf.WORLD_DIMENSION:
                 initial_position.append(random.uniform(0, j))
@@ -107,7 +89,7 @@ class CellComputeServicer(grpc_proto.CellInteractionServiceServicer):
                     x=0,
                     y=0,
                     z=0),
-                dna=cis_cell.random_dna(
+                dna=random_dna(
                     min_length=big_bang_request.dna_length_range.min,
                     max_length=big_bang_request.dna_length_range.max,
                 ),
