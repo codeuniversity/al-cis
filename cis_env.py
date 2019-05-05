@@ -7,6 +7,7 @@ import dna_decoding
 from cis_helper import get_value
 
 
+# movement
 def move_cells(cells, cell_dict):
 
     id_to_cell_moved_dict = {}
@@ -30,7 +31,6 @@ def move_cell_and_connected_cells(cell, cell_dict, moved_dict):
     cell_group = group_connected_cells([cell], cell, cell_dict)
 
     # random movement for now, should be determined by dna and environment
-    d_x, d_y, d_z = random_vector_of_length(4)
     mov_vec = random_vector_of_length(4)
 
     for g_cell in cell_group:
@@ -55,6 +55,7 @@ def curl(pos, vec_len=0.004, coor_origin=conf.CURL_CENTRE):
     return curl_pos * vec_len
 
 
+# food
 def feed_cells(cells, time_step):
 
     food_fac = conf.WANTED_CELL_AMOUNT_PER_BUCKET / len(cells)
@@ -82,7 +83,6 @@ def feed_cell(cell, time_step, food_factor=1):
     if food_value < dna_decoding.food_theshold(cell.dna):
         cell.energy_level += int(dna_decoding.food_amount(cell.dna) * food_factor)
 
-    return cell
 
 def food_function(cell_pos, time_step):
     """
