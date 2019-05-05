@@ -22,7 +22,7 @@ def random_vector_of_length(l):
     dist = np.sqrt(vec.dot(vec))
     factor = l / dist
 
-    return vec
+    return factor * vec
 
 
 def group_connected_cells(group, cell, cell_dict):
