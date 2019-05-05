@@ -1,10 +1,9 @@
 import numpy as np
 import random
 
-from cis_cell import random_vector_of_length, group_connected_cells
 import cis_config as conf
 import dna_decoding
-from cis_helper import get_value
+from cis_helper import get_value, random_vector_of_length, group_connected_cells
 
 
 # movement

@@ -1,14 +1,12 @@
-import numpy as np
 import random
 import os
-import math
 import uuid
 
 import protocol_pb2 as proto
 
 import cis_config as conf
 import dna_decoding
-from cis_helper import get_value
+from cis_helper import get_value, group_connected_cells, random_vector_of_length
 
 
 def cells_survive(cells):
@@ -107,27 +105,8 @@ def randomly_shifted_pos(pos, shift_dist):
     )
 
 
-def random_vector_of_length(l):
-    vec = np.random.uniform(1 / 10 * 6, 2, [3]) - 1
-    dist = np.sqrt(vec.dot(vec))
-    factor = l / dist
-    return vec
-
-
 def random_dna(min_length, max_length):
     return bytes(os.urandom(random.randint(min_length, max_length)))
-
-
-def average_out_cell_energy(cells, cell_dict):
-
-    map_id_to_cell_energy_averaged = {}
-
-    for c in cells:
-        average_out_energy_in_connected_cells(
-            c,
-            cell_dict,
-            map_id_to_cell_energy_averaged
-        )
 
 
 def average_out_energy_in_connected_cells(cell, cell_dict, already_averaged_dict):
