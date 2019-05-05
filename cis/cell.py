@@ -117,22 +117,30 @@ def divide(cell):
                 z=0),
             dna=child_dna,
             connections=child_connections)
+
         return new_cell
 
 
 def builds_connection_after_division(cell):
+
     return dna_decoding.builds_connection_after_division(
-        cell.dna, len(cell.connections))
+        cell.dna,
+        len(cell.connections)
+    )
 
 
 def dna_copy_or_sub_slice(cell):
+
     if dna_decoding.dna_should_sub_slice(cell.dna, len(cell.connections)):
         return dna_decoding.dna_sub_slice(cell.dna, len(cell.connections))
+
     return cell.dna
 
 
 def randomly_shifted_pos(pos, shift_dist):
+
     d_x, d_y, d_z = random_vector_of_length(shift_dist)
+
     return proto.Vector(
         x=pos.x + d_x,
         y=pos.y + d_y,
@@ -141,4 +149,5 @@ def randomly_shifted_pos(pos, shift_dist):
 
 
 def random_dna(min_length, max_length):
+
     return bytes(os.urandom(random.randint(min_length, max_length)))

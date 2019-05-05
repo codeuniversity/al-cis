@@ -7,29 +7,35 @@ import protocol_pb2 as proto
 import os
 import prometheus_client
 
-from cis.cell_computing_service import CellComputeServicer
-import cis.config as config
+from cis.cell_computing_service import CellComputeServicer as CIS
+import cis.config as conf
 
 
 def serve():
+
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+
     grpc_proto.add_CellInteractionServiceServicer_to_server(
-        CellComputeServicer(), server)
+        CIS(),
+        server
+    )
+
     server.add_insecure_port('[::]:' + os.environ['GRPC_PORT'])
+
     server.start()
 
     channel = grpc.insecure_channel(os.environ['MASTER_ADDRESS'])
     stub = grpc_proto.SlaveRegistrationServiceStub(channel)
     stub.Register(
         proto.SlaveRegistration(
-            address=os.environ['HOST'] +
-            ":" +
-            os.environ['GRPC_PORT'],
-            threads=1))
+            address="{}:{}".format(os.environ['HOST'], os.environ['GRPC_PORT']),
+            threads=1
+        )
+    )
 
     try:
         while True:
-            time.sleep(config._ONE_DAY_IN_SECONDS)
+            time.sleep(conf._ONE_DAY_IN_SECONDS)
     except KeyboardInterrupt:
         server.stop(0)
 
