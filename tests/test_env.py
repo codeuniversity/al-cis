@@ -43,18 +43,45 @@ class TestClass(object):
         curled = env.curl(pos)
         assert np.array_equal(curled, np.array([0, 3.92, -3.94]))
 
-    # # food
-    # def test_feed_cells(self):
-    #     env.feed_cells(cells, time_step)
+    # food
+    def test_feed_cells(self):
+
+        cells = mck.mock_cell_batch(500)
+        test_energy = sum([cell.energy_level for cell in cells])
+
+        for time_step in range(100):
+            env.feed_cells(cells, time_step)
+        energy = sum([cell.energy_level for cell in cells])
+
+        assert energy > test_energy
 
     # def test_feed_cell(self):
-    #     env.feed_cell(cell, time_step, food_factor=1)
+    #     pass
 
-    # def test_food_function(self):
-    #     env.food_function(cell_pos, time_step)
+    def test_food_function(self):
 
-    # def test_wave_function(self):
-    #     env.wave_function(x, t, max_ampli=1, oscillation_period=1, init_deflection=0)
+        pos = mck.Vector(10, 15, 20)
 
-    # def test_noramlize_food_value(self):
-    #     env.normalize_food_value(num, definition_area_size=6)
+        food = env.food_function(pos, 100)
+        assert food
+        assert type(food) == np.float64
+
+    def test_wave_function(self):
+
+        # test pos
+        for i in range(0, 2000, 100):
+            rand_pos = random.randint(i, i+100)
+            assert env.wave_function(rand_pos, 50)
+
+        # test time
+        for i in range(0, 2000, 100):
+            rand_time = random.randint(i, i+100)
+            assert env.wave_function(rand_time, 50)
+
+    def test_noramlize_food_value(self):
+
+        for _ in range(5):
+            rand_num = random.randint(-3, 3)
+            norm_num = env.normalize_food_value(rand_num, definition_area_size=6)
+
+            assert norm_num >= 0 and norm_num <= 1
