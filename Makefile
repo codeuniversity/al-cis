@@ -22,4 +22,4 @@ docker-push:
 	docker push codealife/al-cis:latest
 
 make test:
-	env/bin/pytest
+	env/bin/pytest -vv
