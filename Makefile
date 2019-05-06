@@ -20,3 +20,6 @@ autoformat:
 docker-push:
 	echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
 	docker push codealife/al-cis:latest
+
+make test:
+	env/bin/pytest
