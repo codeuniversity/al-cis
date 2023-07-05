@@ -1,6 +1,6 @@
 autopep8==1.4.3
 bitstring==3.1.5
-grpcio==1.18.0
+grpcio==1.53.0
 grpcio-tools==1.18.0
 numpy==1.16.0
 pep8==1.7.1
